@@ -124,7 +124,7 @@ export default function HomeScreen({ onNavigate, notifications, onSelectReport }
         </button>
       </div>
 
-      <div className="flex-1 px-6 pt-2">
+      <div className="flex-1 px-6 pt-2 pb-24">
         <div className="grid grid-cols-2 gap-3 mb-6">
           <button
             onClick={() => onNavigate("history")}
@@ -298,7 +298,7 @@ export default function HomeScreen({ onNavigate, notifications, onSelectReport }
         </button>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 border-t border-neutral-100 dark:border-slate-700 px-6 pb-6 pt-3 mt-6 transition-colors">
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white dark:bg-slate-800 border-t border-neutral-100 dark:border-slate-700 px-6 pb-6 pt-3 transition-colors">
         <div className="flex items-center justify-around">
           <button className="flex flex-col items-center gap-1">
             <svg
