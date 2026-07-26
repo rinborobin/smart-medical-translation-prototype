@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SplashScreen from './screens/SplashScreen'
 import SignInScreen from './screens/SignInScreen'
 import SignUpScreen from './screens/SignUpScreen'
@@ -122,6 +122,14 @@ function App() {
   const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState(null)
   const [selectedReportId, setSelectedReportId] = useState(null)
   const [history, setHistory] = useState(initialHistory)
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [darkMode])
 
   const navigate = (screen) => setCurrentScreen(screen)
   const navigateToDetail = (finding) => {
