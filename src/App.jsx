@@ -113,8 +113,20 @@ const initialHistory = [
   },
 ]
 
+const validScreens = [
+  'splash', 'signIn', 'signUp', 'home', 'scan', 'upload', 'processing',
+  'summary', 'detail', 'history', 'settings', 'caregiver', 'addFamily',
+  'familyProfile', 'qrCode', 'notifications',
+]
+
+function getHashScreen() {
+  const hash = window.location.hash.replace(/^#\/?/, '')
+  const screen = hash.split('?')[0]
+  return validScreens.includes(screen) ? screen : 'splash'
+}
+
 function App() {
-  const [navStack, setNavStack] = useState(['splash'])
+  const [currentScreen, setCurrentScreen] = useState(getHashScreen)
   const [darkMode, setDarkMode] = useState(false)
   const [selectedFinding, setSelectedFinding] = useState(null)
   const [familyMembers, setFamilyMembers] = useState(initialFamilyMembers)
@@ -122,8 +134,6 @@ function App() {
   const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState(null)
   const [selectedReportId, setSelectedReportId] = useState(null)
   const [history, setHistory] = useState(initialHistory)
-
-  const currentScreen = navStack[navStack.length - 1]
 
   useEffect(() => {
     if (darkMode) {
@@ -133,16 +143,26 @@ function App() {
     }
   }, [darkMode])
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentScreen(getHashScreen())
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
   const navigate = (screen, options = {}) => {
+    if (!validScreens.includes(screen)) return
+    const url = `#/${screen}`
     if (options.replace) {
-      setNavStack((prev) => [...prev.slice(0, -1), screen])
+      window.location.replace(url)
     } else {
-      setNavStack((prev) => [...prev, screen])
+      window.location.hash = url
     }
   }
 
   const goBack = () => {
-    setNavStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))
+    window.history.back()
   }
 
   const navigateToDetail = (finding) => {
