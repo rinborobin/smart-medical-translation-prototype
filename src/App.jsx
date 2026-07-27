@@ -114,7 +114,7 @@ const initialHistory = [
 ]
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('splash')
+  const [navStack, setNavStack] = useState(['splash'])
   const [darkMode, setDarkMode] = useState(false)
   const [selectedFinding, setSelectedFinding] = useState(null)
   const [familyMembers, setFamilyMembers] = useState(initialFamilyMembers)
@@ -122,6 +122,8 @@ function App() {
   const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState(null)
   const [selectedReportId, setSelectedReportId] = useState(null)
   const [history, setHistory] = useState(initialHistory)
+
+  const currentScreen = navStack[navStack.length - 1]
 
   useEffect(() => {
     if (darkMode) {
@@ -131,18 +133,29 @@ function App() {
     }
   }, [darkMode])
 
-  const navigate = (screen) => setCurrentScreen(screen)
+  const navigate = (screen, options = {}) => {
+    if (options.replace) {
+      setNavStack((prev) => [...prev.slice(0, -1), screen])
+    } else {
+      setNavStack((prev) => [...prev, screen])
+    }
+  }
+
+  const goBack = () => {
+    setNavStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))
+  }
+
   const navigateToDetail = (finding) => {
     setSelectedFinding(finding)
-    setCurrentScreen('detail')
+    navigate('detail')
   }
   const navigateToFamilyProfile = (id) => {
     setSelectedFamilyMemberId(id)
-    setCurrentScreen('familyProfile')
+    navigate('familyProfile')
   }
   const navigateToSummary = (id) => {
     setSelectedReportId(id)
-    setCurrentScreen('summary')
+    navigate('summary')
   }
 
   const addFamilyMember = (member) => {
@@ -178,7 +191,7 @@ function App() {
   return (
     <div className="w-full min-h-screen">
       {currentScreen === 'splash' && (
-        <SplashScreen onComplete={() => navigate('signIn')} />
+        <SplashScreen onComplete={() => navigate('signIn', { replace: true })} />
       )}
       {currentScreen === 'signIn' && (
         <SignInScreen onNavigate={navigate} />
@@ -190,10 +203,10 @@ function App() {
         <HomeScreen onNavigate={navigate} notifications={notifications} onSelectReport={navigateToSummary} />
       )}
       {currentScreen === 'scan' && (
-        <ScanScreen onNavigate={navigate} />
+        <ScanScreen onNavigate={navigate} onGoBack={goBack} />
       )}
       {currentScreen === 'upload' && (
-        <UploadScreen onNavigate={navigate} />
+        <UploadScreen onNavigate={navigate} onGoBack={goBack} />
       )}
       {currentScreen === 'processing' && (
         <ProcessingScreen onNavigate={navigate} />
@@ -201,6 +214,7 @@ function App() {
       {currentScreen === 'summary' && (
         <SummaryScreen
           onNavigate={navigate}
+          onGoBack={goBack}
           onSelectFinding={navigateToDetail}
           history={history}
           selectedReportId={selectedReportId}
@@ -208,13 +222,13 @@ function App() {
         />
       )}
       {currentScreen === 'detail' && (
-        <DetailScreen onNavigate={navigate} finding={selectedFinding} />
+        <DetailScreen onNavigate={navigate} onGoBack={goBack} finding={selectedFinding} />
       )}
       {currentScreen === 'history' && (
-        <HistoryScreen onNavigate={navigate} history={history} onSelectReport={navigateToSummary} />
+        <HistoryScreen onNavigate={navigate} onGoBack={goBack} history={history} onSelectReport={navigateToSummary} />
       )}
       {currentScreen === 'settings' && (
-        <SettingsScreen onNavigate={navigate} darkMode={darkMode} setDarkMode={setDarkMode} />
+        <SettingsScreen onNavigate={navigate} onGoBack={goBack} darkMode={darkMode} setDarkMode={setDarkMode} />
       )}
       {currentScreen === 'caregiver' && (
         <CaregiverScreen onNavigate={navigate} familyMembers={familyMembers} onSelectMember={navigateToFamilyProfile} />
@@ -225,16 +239,17 @@ function App() {
       {currentScreen === 'familyProfile' && (
         <FamilyProfileScreen
           onNavigate={navigate}
+          onGoBack={goBack}
           familyMembers={familyMembers}
           selectedId={selectedFamilyMemberId}
           onDelete={deleteFamilyMember}
         />
       )}
       {currentScreen === 'qrCode' && (
-        <QRCodeScreen onNavigate={navigate} />
+        <QRCodeScreen onNavigate={navigate} onGoBack={goBack} />
       )}
       {currentScreen === 'notifications' && (
-        <NotificationsScreen onNavigate={navigate} notifications={notifications} />
+        <NotificationsScreen onNavigate={navigate} onGoBack={goBack} notifications={notifications} />
       )}
     </div>
   )

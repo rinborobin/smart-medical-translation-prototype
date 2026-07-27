@@ -1,21 +1,21 @@
-import logo from "../assets/logo.png";
+import logo from "../assets/header-logo.png";
 
-export default function HomeScreen({ onNavigate, notifications, onSelectReport }) {
-  const unreadCount = notifications?.filter((n) => !n.read).length || 0
+export default function HomeScreen({
+  onNavigate,
+  notifications,
+  onSelectReport,
+}) {
+  const unreadCount = notifications?.filter((n) => !n.read).length || 0;
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
       <div className="px-6 pt-14 pb-6">
         <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center">
             <img
               src={logo}
               alt="SmartReport"
-              className="w-10 h-10 rounded-2xl object-contain"
+              className="h-16 w-auto max-w-[260px] object-contain"
             />
-            <div className="flex flex-col leading-tight">
-              <span className="text-base font-bold text-neutral-900 dark:text-white tracking-tight">Smart Medical</span>
-              <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">Translation</span>
-            </div>
           </div>
           <button
             onClick={() => onNavigate("notifications")}

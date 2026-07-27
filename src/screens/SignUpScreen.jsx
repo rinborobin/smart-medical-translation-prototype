@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../assets/logo.png";
+import logo from "../assets/splash-logo.png";
 
 export default function SignUpScreen({ onNavigate }) {
   const [name, setName] = useState("");
@@ -16,7 +16,7 @@ export default function SignUpScreen({ onNavigate }) {
           <img
             src={logo}
             alt="SmartReport Logo"
-            className="w-34 h-34 object-contain"
+            className="w-48 h-48 object-contain"
           />
         </div>
 
@@ -164,7 +164,7 @@ export default function SignUpScreen({ onNavigate }) {
 
       <div className="px-6 pb-8 pt-4 space-y-4">
         <button
-          onClick={() => onNavigate("home")}
+          onClick={() => onNavigate("home", { replace: true })}
           className="w-full py-4 bg-primary-600 text-white rounded-2xl text-base font-semibold shadow-lg shadow-primary-600/20 active:scale-[0.98] transition-transform"
         >
           ចុះឈ្មោះ
@@ -179,7 +179,7 @@ export default function SignUpScreen({ onNavigate }) {
         </div>
 
         <button
-          onClick={() => onNavigate("home")}
+          onClick={() => onNavigate("home", { replace: true })}
           className="w-full py-4 bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-2xl text-base font-semibold text-neutral-800 dark:text-white flex items-center justify-center gap-3 active:scale-[0.98] transition-transform"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">

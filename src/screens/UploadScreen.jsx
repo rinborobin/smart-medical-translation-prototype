@@ -7,14 +7,14 @@ const mockFiles = [
   { id: 4, name: 'Doctor_Notes.pdf', date: '១០ កក្កដា ២០២៦', size: '560 KB', type: 'pdf' },
 ]
 
-export default function UploadScreen({ onNavigate }) {
+export default function UploadScreen({ onNavigate, onGoBack }) {
   const [selectedId, setSelectedId] = useState(null)
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
       <div className="flex items-center gap-3 px-6 pt-14 pb-4">
         <button
-          onClick={() => onNavigate('home')}
+          onClick={onGoBack}
           className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
         >
           <svg className="w-5 h-5 text-neutral-700 dark:text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

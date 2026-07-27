@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ExportModal from '../components/ExportModal'
 import SendToCaregiverModal from '../components/SendToCaregiverModal'
+import HelpBottomSheet from '../components/HelpBottomSheet'
 
 const mockFindings = [
   { id: 1, name: 'CRP Quantitative', nameKh: 'ស៊ីអ៊ារភី បរិមាណ', value: '3.5 mg/L', normalRange: '< 3 mg/L', status: 'high', explanation: 'កម្រិតស៊ីអ៊ារភីខ្ពស់ជាងធម្មតាបន្តិច។ នេះអាចបង្ហាញពីការរលាកក្នុងរាងកាយ។', section: 'SEROLOGY', confidence: 94, dataSource: 'Mayo Clinic / WHO' },
@@ -16,10 +17,11 @@ const statusConfig = {
   high: { bg: 'bg-error-50 dark:bg-error-900/20', border: 'border-error-100 dark:border-error-800', text: 'text-error-700 dark:text-error-300', dot: 'bg-error-500 dark:bg-error-400', label: 'ខ្ពស់' },
 }
 
-export default function SummaryScreen({ onNavigate, onSelectFinding, history, selectedReportId, onDeleteReport }) {
+export default function SummaryScreen({ onNavigate, onGoBack, onSelectFinding, history, selectedReportId, onDeleteReport }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [showExportModal, setShowExportModal] = useState(false)
   const [showCaregiverModal, setShowCaregiverModal] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
@@ -37,7 +39,7 @@ export default function SummaryScreen({ onNavigate, onSelectFinding, history, se
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
       <div className="flex items-center gap-3 px-6 pt-14 pb-4">
         <button
-          onClick={() => onNavigate('home')}
+          onClick={onGoBack}
           className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
         >
           <svg className="w-5 h-5 text-neutral-700 dark:text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -48,6 +50,14 @@ export default function SummaryScreen({ onNavigate, onSelectFinding, history, se
           <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">សង្ខេបរបាយការណ៍</h1>
           <p className="text-xs text-neutral-400 dark:text-neutral-500">Report Summary</p>
         </div>
+        <button
+          onClick={() => setHelpOpen(true)}
+          className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700 mr-2"
+        >
+          <svg className="w-5 h-5 text-neutral-500 dark:text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+          </svg>
+        </button>
         <div className="relative">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -241,6 +251,35 @@ export default function SummaryScreen({ onNavigate, onSelectFinding, history, se
           </div>
         </div>
       )}
+
+      <HelpBottomSheet
+        isOpen={helpOpen}
+        onClose={() => setHelpOpen(false)}
+        title="របៀបអានសង្ខេបរបាយការណ៍"
+      >
+        <div className="space-y-3">
+          <p>
+            ទំព័រនេះបង្ហាញលទ្ធផលសង្ខេបពីរបាយការណ៍សុខភាពរបស់អ្នក។ រាល់ចំណុចបង្ហាញដោយពណ៌៖
+          </p>
+          <ul className="space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="w-2 h-2 bg-success-500 rounded-full mt-2 shrink-0" />
+              <span><strong>ខៀវ / បៃតង</strong> — លទ្ធផលស្ថិតក្នុងដែនកំណត់ធម្មតា</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-2 h-2 bg-warning-500 rounded-full mt-2 shrink-0" />
+              <span><strong>លឿង</strong> — លទ្ធផលខ្ពស់ឬទាបបន្តិច ត្រូវយកចិត្តទុកដាក់</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-2 h-2 bg-error-500 rounded-full mt-2 shrink-0" />
+              <span><strong>ក្រហម</strong> — លទ្ធផលខ្ពស់ឬទាបច្រើន សូមប្រឹក្សាគ្រូពេទ្យ</span>
+            </li>
+          </ul>
+          <p>
+            <strong>AI confidence</strong> បង្ហាញកម្រិតទំនុកចិត្តរបស់ប្រព័ន្ធក្នុងការបកប្រែតម្លៃនីមួយៗ។ ប្រសិនបើអ្នកមានសំណួរ សូមចុចលើចំណុចណាមួយដើម្បីអានបរិយាយលម្អិត។
+          </p>
+        </div>
+      </HelpBottomSheet>
 
       <ExportModal isOpen={showExportModal} onClose={() => setShowExportModal(false)} onNavigate={onNavigate} />
       <SendToCaregiverModal isOpen={showCaregiverModal} onClose={() => setShowCaregiverModal(false)} />

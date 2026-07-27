@@ -20,7 +20,7 @@ const sortOptions = [
   { value: "status", label: "ស្ថានភាព", labelEn: "Status" },
 ];
 
-export default function HistoryScreen({ onNavigate, history, onSelectReport }) {
+export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectReport }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
@@ -47,7 +47,7 @@ export default function HistoryScreen({ onNavigate, history, onSelectReport }) {
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
       <div className="flex items-center gap-3 px-6 pt-14 pb-4">
         <button
-          onClick={() => onNavigate("home")}
+          onClick={onGoBack}
           className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
         >
           <svg
@@ -154,7 +154,41 @@ export default function HistoryScreen({ onNavigate, history, onSelectReport }) {
           កក្កដា ២០២៦
         </p>
 
-        {filteredHistory.length === 0 && (
+        {history.length === 0 && (
+          <div className="flex flex-col items-center gap-4 py-16 text-center">
+            <div className="w-20 h-20 bg-primary-50 dark:bg-primary-900/20 rounded-3xl flex items-center justify-center">
+              <svg
+                className="w-10 h-10 text-primary-500 dark:text-primary-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"
+                />
+              </svg>
+            </div>
+            <div>
+              <p className="text-base font-semibold text-neutral-800 dark:text-white mb-1">
+                មិនទាន់មានរបាយការណ៍
+              </p>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 max-w-xs">
+                ស្កេនរបាយការណ៍ដំបូងរបស់អ្នក ដើម្បីចាប់ផ្ដើមតាមដានសុខភាព
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate("scan", { replace: true })}
+              className="px-6 py-3 bg-primary-600 text-white rounded-2xl text-sm font-semibold shadow-lg shadow-primary-600/20 active:scale-95 transition-transform"
+            >
+              ស្កេនរបាយការណ៍ដំបូង
+            </button>
+          </div>
+        )}
+
+        {history.length > 0 && filteredHistory.length === 0 && (
           <div className="flex flex-col items-center gap-3 py-12">
             <div className="w-12 h-12 bg-neutral-100 dark:bg-slate-800 rounded-xl flex items-center justify-center">
               <svg
@@ -253,7 +287,7 @@ export default function HistoryScreen({ onNavigate, history, onSelectReport }) {
       <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white dark:bg-slate-800 border-t border-neutral-100 dark:border-slate-700 px-6 pb-6 pt-3 transition-colors">
         <div className="flex items-center justify-around">
           <button
-            onClick={() => onNavigate("home")}
+            onClick={() => onNavigate("home", { replace: true })}
             className="flex flex-col items-center gap-1"
           >
             <svg

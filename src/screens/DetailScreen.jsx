@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import SendToCaregiverModal from '../components/SendToCaregiverModal'
+import HelpBottomSheet from '../components/HelpBottomSheet'
 
 const findingDetails = {
   'CRP Quantitative': {
@@ -105,9 +106,10 @@ const statusConfig = {
   high: { iconBg: 'bg-error-50 dark:bg-error-900/20', iconColor: 'text-error-500 dark:text-error-400', valueColor: 'text-error-600 dark:text-error-400', badgeBg: 'bg-error-50 dark:bg-error-900/20', badgeText: 'text-error-600 dark:text-error-400', markerBorder: 'border-error-500 dark:border-error-400', label: 'ខ្ពស់' },
 }
 
-export default function DetailScreen({ onNavigate, finding }) {
+export default function DetailScreen({ onGoBack, finding }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [showCaregiverModal, setShowCaregiverModal] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
 
   if (!finding) {
     return (
@@ -124,7 +126,7 @@ export default function DetailScreen({ onNavigate, finding }) {
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
       <div className="flex items-center gap-3 px-6 pt-14 pb-4">
         <button
-          onClick={() => onNavigate('summary')}
+          onClick={onGoBack}
           className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
         >
           <svg className="w-5 h-5 text-neutral-700 dark:text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -135,6 +137,14 @@ export default function DetailScreen({ onNavigate, finding }) {
           <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">លម្អិត</h1>
           <p className="text-xs text-neutral-400 dark:text-neutral-500">Detail</p>
         </div>
+        <button
+          onClick={() => setHelpOpen(true)}
+          className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
+        >
+          <svg className="w-5 h-5 text-neutral-500 dark:text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+          </svg>
+        </button>
       </div>
 
       <div className="flex-1 px-6 pt-2 pb-6 space-y-4">
@@ -336,6 +346,24 @@ export default function DetailScreen({ onNavigate, finding }) {
           <span className="text-xs text-neutral-400 dark:text-neutral-500">Save Notes</span>
         </button>
       </div>
+
+      <HelpBottomSheet
+        isOpen={helpOpen}
+        onClose={() => setHelpOpen(false)}
+        title={`ជំនួយអំពី ${finding.nameKh}`}
+      >
+        <div className="space-y-3">
+          <p>
+            ទំព័រនេះពន្យល់ពីរបៀបយល់ពីតម្លៃ <strong>{finding.nameKh}</strong> របស់អ្នក។
+          </p>
+          <p>
+            <strong>របារប្រៀបធៀប</strong> បង្ហាញទីតាំងតម្លៃរបស់អ្នកធៀបនឹងដែនកំណត់ធម្មតា។ ប្រសិនបើចំណុចស្ថិតនៅចុងឆ្វេង មានន័យថាទាប។ ប្រសិនបើស្ថិតនៅកណ្ដាល មានន័យថាធម្មតា។ ប្រសិនបើស្ថិតនៅចុងស្ដាំ មានន័យថាខ្ពស់។
+          </p>
+          <p>
+            <strong>ពាក្យពេទ្យ</strong> និង <strong>អនុសាសន៍</strong> ជួយអ្នកយល់ពីអត្ថន័យនៃលទ្ធផល និងជំហានបន្ទាប់ដែលគួរធ្វើ។ សូមចងចាំថាព័ត៌មាននេះសម្រាប់ការយល់ដឹងទូទៅប៉ុណ្ណោះ។
+          </p>
+        </div>
+      </HelpBottomSheet>
 
       <SendToCaregiverModal isOpen={showCaregiverModal} onClose={() => setShowCaregiverModal(false)} />
     </div>

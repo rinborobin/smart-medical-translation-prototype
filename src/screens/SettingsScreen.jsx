@@ -1,7 +1,7 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
 
-export default function SettingsScreen({ onNavigate, darkMode, setDarkMode }) {
+export default function SettingsScreen({ onNavigate, onGoBack, darkMode, setDarkMode }) {
   const [textSize, setTextSize] = useState("large");
   const [language, setLanguage] = useState("kh");
 
@@ -9,7 +9,7 @@ export default function SettingsScreen({ onNavigate, darkMode, setDarkMode }) {
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
       <div className="flex items-center gap-3 px-6 pt-14 pb-4">
         <button
-          onClick={() => onNavigate("home")}
+          onClick={onGoBack}
           className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
         >
           <svg
@@ -310,7 +310,7 @@ export default function SettingsScreen({ onNavigate, darkMode, setDarkMode }) {
       <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white dark:bg-slate-800 border-t border-neutral-100 dark:border-slate-700 px-6 pb-6 pt-3 transition-colors">
         <div className="flex items-center justify-around">
           <button
-            onClick={() => onNavigate("home")}
+            onClick={() => onNavigate("home", { replace: true })}
             className="flex flex-col items-center gap-1"
           >
             <svg
