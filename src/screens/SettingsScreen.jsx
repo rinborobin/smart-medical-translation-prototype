@@ -1,7 +1,12 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
 
-export default function SettingsScreen({ onNavigate, onGoBack, darkMode, setDarkMode }) {
+export default function SettingsScreen({
+  onNavigate,
+  onGoBack,
+  darkMode,
+  setDarkMode,
+}) {
   const [textSize, setTextSize] = useState("large");
   const [language, setLanguage] = useState("kh");
 
@@ -33,7 +38,7 @@ export default function SettingsScreen({ onNavigate, onGoBack, darkMode, setDark
 
       <div className="flex-1 px-6 pt-4 pb-24 space-y-6">
         <button
-          onClick={() => onNavigate('qrCode')}
+          onClick={() => onNavigate("qrCode")}
           className="w-full text-left bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-5 text-white shadow-lg shadow-primary-600/20 active:scale-[0.98] transition-transform"
         >
           <div className="flex items-center gap-4">
@@ -43,11 +48,51 @@ export default function SettingsScreen({ onNavigate, onGoBack, darkMode, setDark
             <div className="flex-1">
               <p className="text-lg font-bold">សុខា រីក</p>
               <p className="text-sm text-white/80">sokha.reak@email.com</p>
-              <p className="text-xs text-white/60 mt-1">ប្រើប្រាស់ចាប់តាំងពី មិថុនា ២០២៦</p>
+              <p className="text-xs text-white/60 mt-1">
+                ប្រើប្រាស់ចាប់តាំងពី មិថុនា ២០២៦
+              </p>
             </div>
-            <div className="w-9 h-9 bg-white/15 rounded-full flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.75a4 4 0 0 0-4 4v2a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4h-2Zm10 0a4 4 0 0 0-4 4v2a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4h-2ZM3.75 14.75a4 4 0 0 0-4 4v2a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4h-2Zm15-10a4 4 0 0 0-4 4v2a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4h-2Z" />
+            <div className="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center">
+              <svg
+                width="190px"
+                height="190px"
+                viewBox="-3.64 -3.64 35.28 35.28"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                fill="#ffffff"
+                stroke="#ffffff"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  {" "}
+                  <g
+                    id="🔍-Product-Icons"
+                    stroke-width="0.00028"
+                    ffffffill="none"
+                    ffffffill-rule="evenodd"
+                  >
+                    {" "}
+                    <g
+                      id="ic_ffffffluent_qr_code_24_regular"
+                      ffffffill="ffffff"
+                      ffffffill-rule="nonzero"
+                    >
+                      {" "}
+                      <path
+                        d="M10.75,15 C11.9926407,15 13,16.0073593 13,17.25 L13,22.75 C13,23.9926407 11.9926407,25 10.75,25 L5.25,25 C4.00735931,25 3,23.9926407 3,22.75 L3,17.25 C3,16.0073593 4.00735931,15 5.25,15 L10.75,15 Z M18.3346843,15 L18.3346843,18.3333333 L21.6671089,18.3333333 L21.6671089,21.6666667 L18.3346843,21.6660851 L18.3346843,24.9994184 L15.0013509,24.9994184 L15.0013509,21.6660851 L18.3337756,21.6666667 L18.3337756,18.3333333 L15.0013509,18.3333333 L15.0013509,15 L18.3346843,15 Z M25.0004423,21.6660851 L25.0004423,24.9994184 L21.6671089,24.9994184 L21.6671089,21.6660851 L25.0004423,21.6660851 Z M10.75,16.5 L5.25,16.5 C4.83578644,16.5 4.5,16.8357864 4.5,17.25 L4.5,22.75 C4.5,23.1642136 4.83578644,23.5 5.25,23.5 L10.75,23.5 C11.1642136,23.5 11.5,23.1642136 11.5,22.75 L11.5,17.25 C11.5,16.8357864 11.1642136,16.5 10.75,16.5 Z M9.5,18.5 L9.5,21.5 L6.5,21.5 L6.5,18.5 L9.5,18.5 Z M25.0004423,15 L25.0004423,18.3333333 L21.6671089,18.3333333 L21.6671089,15 L25.0004423,15 Z M10.75,3 C11.9926407,3 13,4.00735931 13,5.25 L13,10.75 C13,11.9926407 11.9926407,13 10.75,13 L5.25,13 C4.00735931,13 3,11.9926407 3,10.75 L3,5.25 C3,4.00735931 4.00735931,3 5.25,3 L10.75,3 Z M22.75,3 C23.9926407,3 25,4.00735931 25,5.25 L25,10.75 C25,11.9926407 23.9926407,13 22.75,13 L17.25,13 C16.0073593,13 15,11.9926407 15,10.75 L15,5.25 C15,4.00735931 16.0073593,3 17.25,3 L22.75,3 Z M10.75,4.5 L5.25,4.5 C4.83578644,4.5 4.5,4.83578644 4.5,5.25 L4.5,10.75 C4.5,11.1642136 4.83578644,11.5 5.25,11.5 L10.75,11.5 C11.1642136,11.5 11.5,11.1642136 11.5,10.75 L11.5,5.25 C11.5,4.83578644 11.1642136,4.5 10.75,4.5 Z M22.75,4.5 L17.25,4.5 C16.8357864,4.5 16.5,4.83578644 16.5,5.25 L16.5,10.75 C16.5,11.1642136 16.8357864,11.5 17.25,11.5 L22.75,11.5 C23.1642136,11.5 23.5,11.1642136 23.5,10.75 L23.5,5.25 C23.5,4.83578644 23.1642136,4.5 22.75,4.5 Z M9.5,6.5 L9.5,9.5 L6.5,9.5 L6.5,6.5 L9.5,6.5 Z M21.5,6.5 L21.5,9.5 L18.5,9.5 L18.5,6.5 L21.5,6.5 Z"
+                        id="🎨-Color"
+                      >
+                        {" "}
+                      </path>{" "}
+                    </g>{" "}
+                  </g>{" "}
+                </g>
               </svg>
             </div>
           </div>
