@@ -6,9 +6,69 @@ export default function SettingsScreen({
   onGoBack,
   darkMode,
   setDarkMode,
+  language,
+  setLanguage,
 }) {
   const [textSize, setTextSize] = useState("large");
-  const [language, setLanguage] = useState("kh");
+
+  const copy = {
+    kh: {
+      title: "ការកំណត់",
+      display: "ការបង្ហាញ",
+      data: "ទិន្នន័យ",
+      about: "អំពី",
+      darkMode: "របៀបងងឹត",
+      language: "ភាសា",
+      textSize: "ទំហំអក្សរ",
+      exportData: "នាំចេញទិន្នន័យ",
+      clearHistory: "លុបប្រវត្តិទាំងអស់",
+      appVersion: "Smart Medical Translation v1.0.0",
+      logout: "ចាកចេញ",
+      home: "ទំព័រដើម",
+      caregiver: "អ្នកថែទាំ",
+      history: "ប្រវត្តិ",
+      english: "English",
+      khmer: "ខ្មែរ",
+      medium: "មធ្យម",
+      large: "ធំ",
+      xlarge: "ធំបំផុត",
+      darkModeHint: "Dark Mode",
+      languageHint: "Language",
+      textSizeHint: "Text Size",
+      exportHint: "Export Data",
+      clearHistoryHint: "Clear All History",
+      since: "ប្រើប្រាស់ចាប់តាំងពី មិថុនា ២០២៦",
+    },
+    en: {
+      title: "Settings",
+      display: "Display",
+      data: "Data",
+      about: "About",
+      darkMode: "Dark Mode",
+      language: "Language",
+      textSize: "Text Size",
+      exportData: "Export Data",
+      clearHistory: "Clear All History",
+      appVersion: "Smart Medical Translation v1.0.0",
+      logout: "Log Out",
+      home: "Home",
+      caregiver: "Caregiver",
+      history: "History",
+      english: "English",
+      khmer: "Khmer",
+      medium: "Medium",
+      large: "Large",
+      xlarge: "Largest",
+      darkModeHint: "Dark Mode",
+      languageHint: "Language",
+      textSizeHint: "Text Size",
+      exportHint: "Export Data",
+      clearHistoryHint: "Clear All History",
+      since: "Using since June 2026",
+    },
+  };
+
+  const strings = copy[language] ?? copy.kh;
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
@@ -32,7 +92,7 @@ export default function SettingsScreen({
           </svg>
         </button>
         <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">
-          ការកំណត់
+          {strings.title}
         </h1>
       </div>
 
@@ -48,9 +108,7 @@ export default function SettingsScreen({
             <div className="flex-1">
               <p className="text-lg font-bold">សុខា រីក</p>
               <p className="text-sm text-white/80">sokha.reak@email.com</p>
-              <p className="text-xs text-white/60 mt-1">
-                ប្រើប្រាស់ចាប់តាំងពី មិថុនា ២០២៦
-              </p>
+              <p className="text-xs text-white/60 mt-1">{strings.since}</p>
             </div>
             <div className="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center">
               <svg
@@ -100,7 +158,7 @@ export default function SettingsScreen({
 
         <div>
           <p className="text-xs text-neutral-400 dark:text-neutral-500 font-medium uppercase tracking-wide mb-3 px-1">
-            ការបង្ហាញ
+            {strings.display}
           </p>
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 divide-y divide-neutral-100 dark:divide-slate-700">
             <div className="p-5">
@@ -123,10 +181,10 @@ export default function SettingsScreen({
                   </div>
                   <div>
                     <p className="text-sm font-medium text-neutral-800 dark:text-white">
-                      របៀបងងឹត
+                      {strings.darkMode}
                     </p>
                     <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                      Dark Mode
+                      {strings.darkModeHint}
                     </p>
                   </div>
                 </div>
@@ -178,21 +236,21 @@ export default function SettingsScreen({
                   onClick={() => setLanguage("kh")}
                   className={`flex-1 py-3 rounded-xl text-sm font-medium transition-all ${
                     language === "kh"
-                      ? "bg-primary-600 text-white"
+                      ? "border border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20"
                       : "bg-neutral-100 dark:bg-slate-700 text-neutral-500 dark:text-neutral-400"
                   }`}
                 >
-                  ខ្មែរ
+                  {strings.khmer}
                 </button>
                 <button
                   onClick={() => setLanguage("en")}
                   className={`flex-1 py-3 rounded-xl text-sm font-medium transition-all ${
                     language === "en"
-                      ? "bg-primary-600 text-white"
+                      ? "border border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20"
                       : "bg-neutral-100 dark:bg-slate-700 text-neutral-500 dark:text-neutral-400"
                   }`}
                 >
-                  English
+                  {strings.english}
                 </button>
               </div>
             </div>
@@ -216,10 +274,10 @@ export default function SettingsScreen({
                 </div>
                 <div>
                   <p className="text-sm font-medium text-neutral-800 dark:text-white">
-                    ទំហំអក្សរ
+                    {strings.textSize}
                   </p>
                   <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                    Text Size
+                    {strings.textSizeHint}
                   </p>
                 </div>
               </div>
@@ -232,7 +290,7 @@ export default function SettingsScreen({
                       : "bg-neutral-100 dark:bg-slate-700 text-neutral-500 dark:text-neutral-400"
                   }`}
                 >
-                  មធ្យម
+                  {strings.medium}
                 </button>
                 <button
                   onClick={() => setTextSize("large")}
@@ -242,7 +300,7 @@ export default function SettingsScreen({
                       : "bg-neutral-100 dark:bg-slate-700 text-neutral-500 dark:text-neutral-400"
                   }`}
                 >
-                  ធំ
+                  {strings.large}
                 </button>
                 <button
                   onClick={() => setTextSize("xlarge")}
@@ -252,7 +310,7 @@ export default function SettingsScreen({
                       : "bg-neutral-100 dark:bg-slate-700 text-neutral-500 dark:text-neutral-400"
                   }`}
                 >
-                  ធំបំផុត
+                  {strings.xlarge}
                 </button>
               </div>
             </div>
@@ -261,7 +319,7 @@ export default function SettingsScreen({
 
         <div>
           <p className="text-xs text-neutral-400 dark:text-neutral-500 font-medium uppercase tracking-wide mb-3 px-1">
-            ទិន្នន័យ
+            {strings.data}
           </p>
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 divide-y divide-neutral-100 dark:divide-slate-700">
             <button className="w-full p-5 flex items-center gap-3">
@@ -282,10 +340,10 @@ export default function SettingsScreen({
               </div>
               <div className="flex-1 text-left">
                 <p className="text-sm font-medium text-neutral-800 dark:text-white">
-                  នាំចេញទិន្នន័យ
+                  {strings.exportData}
                 </p>
                 <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                  Export Data
+                  {strings.exportHint}
                 </p>
               </div>
               <svg
@@ -321,10 +379,10 @@ export default function SettingsScreen({
               </div>
               <div className="flex-1 text-left">
                 <p className="text-sm font-medium text-error-600 dark:text-error-400">
-                  លុបប្រវត្តិទាំងអស់
+                  {strings.clearHistory}
                 </p>
                 <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                  Clear All History
+                  {strings.clearHistoryHint}
                 </p>
               </div>
             </button>
@@ -333,7 +391,7 @@ export default function SettingsScreen({
 
         <div>
           <p className="text-xs text-neutral-400 dark:text-neutral-500 font-medium uppercase tracking-wide mb-3 px-1">
-            អំពី
+            {strings.about}
           </p>
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 p-5">
             <div className="flex items-center gap-4">
@@ -344,7 +402,7 @@ export default function SettingsScreen({
               />
               <div>
                 <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                  Smart Medical Translation v1.0.0
+                  {strings.appVersion}
                 </p>
               </div>
             </div>
@@ -355,7 +413,7 @@ export default function SettingsScreen({
           onClick={() => onNavigate("signIn", { replace: true })}
           className="w-full mt-2 py-3.5 rounded-2xl border border-error-200 dark:border-error-900/40 bg-red-400 dark:bg-error-900/20 text-white dark:text-white font-semibold transition-colors active:scale-[0.99]"
         >
-          ចាកចេញ
+          {strings.logout}
         </button>
       </div>
 
@@ -379,7 +437,7 @@ export default function SettingsScreen({
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              ទំព័រដើម
+              {strings.home}
             </span>
           </button>
           <button
@@ -400,7 +458,7 @@ export default function SettingsScreen({
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              អ្នកថែទាំ
+              {strings.caregiver}
             </span>
           </button>
           <button
@@ -421,7 +479,7 @@ export default function SettingsScreen({
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              ប្រវត្តិ
+              {strings.history}
             </span>
           </button>
           <button className="flex flex-col items-center gap-1">

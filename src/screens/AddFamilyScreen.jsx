@@ -18,13 +18,18 @@ const avatarLetters = {
   other: "ផ",
 };
 
-export default function AddFamilyScreen({ onNavigate, onAdd }) {
+export default function AddFamilyScreen({
+  onNavigate,
+  onAdd,
+  language = "kh",
+}) {
   const [mode, setMode] = useState("manual");
   const [name, setName] = useState("");
   const [nameEn, setNameEn] = useState("");
   const [phone, setPhone] = useState("");
   const [relation, setRelation] = useState("");
   const [flashOn, setFlashOn] = useState(false);
+  const t = (kh, en) => (language === "en" ? en : kh);
 
   const handleManualAdd = () => {
     if (!name || !relation) return;
@@ -34,7 +39,7 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
       nameEn: nameEn || name,
       relation: selected.label,
       relationEn: selected.labelEn,
-      phone: phone || "មិនមាន",
+      phone: phone || t("មិនមាន", "Not provided"),
       avatar: avatarLetters[relation] || name.charAt(0).toUpperCase(),
     });
     onNavigate("caregiver");
@@ -63,10 +68,10 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
         </button>
         <div>
           <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">
-            បន្ថែមអ្នកថែទាំ
+            {t("បន្ថែមអ្នកថែទាំ", "Add Caregiver")}
           </h1>
           <p className="text-xs text-neutral-400 dark:text-neutral-500">
-            Add Caregiver
+            {t("Add Caregiver", "Add Caregiver")}
           </p>
         </div>
       </div>
@@ -81,7 +86,7 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
                 : "text-neutral-500 dark:text-neutral-400"
             }`}
           >
-            បញ្ចូលដៃ
+            {t("បញ្ចូលដៃ", "Manual")}
           </button>
           <button
             onClick={() => setMode("qr")}
@@ -91,7 +96,7 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
                 : "text-neutral-500 dark:text-neutral-400"
             }`}
           >
-            ស្កេន QR
+            {t("ស្កេន QR", "Scan QR")}
           </button>
         </div>
       </div>
@@ -119,33 +124,33 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                ឈ្មោះ (ខ្មែរ)
+                {t("ឈ្មោះ (ខ្មែរ)", "Name (Khmer)")}
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="បញ្ចូលឈ្មោះ..."
+                placeholder={t("បញ្ចូលឈ្មោះ...", "Enter name...")}
                 className="w-full px-4 py-4 bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-2xl text-base text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 focus:outline-none focus:border-primary-300 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-900"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                Name (English)
+                {t("Name (English)", "Name (English)")}
               </label>
               <input
                 type="text"
                 value={nameEn}
                 onChange={(e) => setNameEn(e.target.value)}
-                placeholder="Enter name..."
+                placeholder={t("Enter name...", "Enter name...")}
                 className="w-full px-4 py-4 bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-2xl text-base text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 focus:outline-none focus:border-primary-300 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-900"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                លេខទូរស័ព្ទ
+                {t("លេខទូរស័ព្ទ", "Phone Number")}
               </label>
               <input
                 type="tel"
@@ -158,7 +163,7 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
 
             <div>
               <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                ទំនាក់ទំនង
+                {t("ទំនាក់ទំនង", "Relation")}
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {relations.map((rel) => (
@@ -196,8 +201,10 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
               />
             </svg>
             <p className="text-xs text-primary-700 dark:text-primary-300 leading-relaxed">
-              អ្នកថែទាំនឹងទទួលបានការជូនដំណឹងដើម្បីបព្ជាក់ថាពួកគេត្រូវបានបញ្ចូល។
-              ពួកគេអាចគ្រប់គ្រងការចែករំលែករបាយការណ៍បានគ្រប់ពេល។
+              {t(
+                "អ្នកថែទាំនឹងទទួលបានការជូនដំណឹងដើម្បីបព្ជាក់ថាពួកគេត្រូវបានបញ្ចូល។ ពួកគេអាចគ្រប់គ្រងការចែករំលែករបាយការណ៍បានគ្រប់ពេល។",
+                "The caregiver will receive a notification confirming they were added. They can manage report sharing anytime.",
+              )}
             </p>
           </div>
         </div>
@@ -216,18 +223,30 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
 
             <div className="text-center mt-6 max-w-sm space-y-1">
               <p className="text-sm font-medium text-neutral-400 dark:text-white">
-                សួរអ្នកថែទាំដាក់ QR ក្នុងបន្ទាត់
+                {t(
+                  "សួរអ្នកថែទាំដាក់ QR ក្នុងបន្ទាត់",
+                  "Ask the caregiver to place the QR code in frame",
+                )}
               </p>
               <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                Position QR code inside frame
+                {t(
+                  "Position QR code inside frame",
+                  "Position QR code inside frame",
+                )}
               </p>
             </div>
           </div>
 
           <p className="text-sm text-neutral-500 dark:text-neutral-400 text-center mt-3 leading-relaxed max-w-sm">
-            សួរអ្នកថែទាំបើកការកំណត់ &gt; QR របស់ពួកគេ
+            {t(
+              "សួរអ្នកថែទាំបើកការកំណត់ &gt; QR របស់ពួកគេ",
+              "Ask the caregiver to open Settings > QR",
+            )}
             <br />
-            QR នឹងត្រូវស្កេនស្វ័យប្រវត្តិនៅពេលដាក់ក្នុងបន្ទាត់
+            {t(
+              "QR នឹងត្រូវស្កេនស្វ័យប្រវត្តិនៅពេលដាក់ក្នុងបន្ទាត់",
+              "The QR code will be scanned automatically when placed in frame",
+            )}
           </p>
 
           <div className="mt-6 w-full max-w-sm grid grid-cols-2 gap-3">
@@ -252,7 +271,7 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
                   d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
                 />
               </svg>
-              Flash
+              {t("Flash", "Flash")}
             </button>
 
             <button className="py-4 border-primary-400 bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 flex items-center justify-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300 active:scale-[0.98] transition-transform">
@@ -269,7 +288,7 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
                   d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"
                 />
               </svg>
-              បញ្ចូល QR
+              {t("បញ្ចូល QR", "Scan QR")}
             </button>
           </div>
         </div>
@@ -286,7 +305,7 @@ export default function AddFamilyScreen({ onNavigate, onAdd }) {
                 : "bg-neutral-200 dark:bg-slate-700 text-neutral-400 dark:text-neutral-500"
             }`}
           >
-            បន្ថែមអ្នកថែទាំ
+            {t("បន្ថែមអ្នកថែទាំ", "Add Caregiver")}
           </button>
         </div>
       )}

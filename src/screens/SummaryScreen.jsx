@@ -8,11 +8,14 @@ const mockFindings = [
     id: 1,
     name: "CRP Quantitative",
     nameKh: "ស៊ីអ៊ារភី បរិមាណ",
+    nameEn: "CRP Quantitative",
     value: "3.5 mg/L",
     normalRange: "< 3 mg/L",
     status: "high",
     explanation:
       "កម្រិតស៊ីអ៊ារភីខ្ពស់ជាងធម្មតាបន្តិច។ នេះអាចបង្ហាញពីការរលាកក្នុងរាងកាយ។",
+    explanationEn:
+      "CRP is slightly above the normal range, which may indicate inflammation in the body.",
     section: "SEROLOGY",
     confidence: 94,
     dataSource: "Mayo Clinic / WHO",
@@ -21,10 +24,13 @@ const mockFindings = [
     id: 2,
     name: "Hemoglobin",
     nameKh: "អេម៉ូក្លូប៊ីន",
+    nameEn: "Hemoglobin",
     value: "11.8 g/dL",
     normalRange: "12.0 - 15.5 g/dL",
     status: "low",
     explanation: "កម្រិតឈាមក្រហមទាបជាងធម្មតាបន្តិច។ អាចបង្ហាញពីកង្វះជាតិដែក។",
+    explanationEn:
+      "Hemoglobin is slightly below the normal range and may suggest iron deficiency.",
     section: "HEMATOLOGY",
     confidence: 96,
     dataSource: "Cleveland Clinic / NIH",
@@ -33,10 +39,13 @@ const mockFindings = [
     id: 3,
     name: "WBC",
     nameKh: "កោសិកាឈាមស",
+    nameEn: "WBC",
     value: "7,200 /μL",
     normalRange: "4,000 - 11,000 /μL",
     status: "normal",
     explanation: "កម្រិតកោសិកាឈាមសធម្មតា។ ប្រព័ន្ធភាពស៊ាំដំណើរការល្អ។",
+    explanationEn:
+      "White blood cells are within the normal range. The immune system appears to be functioning well.",
     section: "HEMATOLOGY",
     confidence: 98,
     dataSource: "Lab Tests Online / WHO",
@@ -45,10 +54,13 @@ const mockFindings = [
     id: 4,
     name: "Platelets",
     nameKh: "ប្លាកែត",
+    nameEn: "Platelets",
     value: "245,000 /μL",
     normalRange: "150,000 - 400,000 /μL",
     status: "normal",
     explanation: "ចំនួនប្លាកែតក្នុងដែនកំណត់ធម្មតា។ ការកកឈាមដំណើរការល្អ។",
+    explanationEn:
+      "Platelets are within the normal range and blood clotting appears to be working well.",
     section: "HEMATOLOGY",
     confidence: 97,
     dataSource: "Cleveland Clinic / NIH",
@@ -57,10 +69,13 @@ const mockFindings = [
     id: 5,
     name: "Neutrophils",
     nameKh: "ណឺត្រូហ្វីល",
+    nameEn: "Neutrophils",
     value: "58%",
     normalRange: "40 - 70%",
     status: "normal",
     explanation: "សមាមាត្រណឺត្រូហ្វីលធម្មតា។ គ្មានសញ្ញានៃការបង្ករោគធ្ងន់ធ្ងរ។",
+    explanationEn:
+      "Neutrophils are in the normal range with no sign of a severe infection.",
     section: "HEMATOLOGY",
     confidence: 95,
     dataSource: "MedlinePlus / WHO",
@@ -74,6 +89,7 @@ const statusConfig = {
     text: "text-success-700 dark:text-success-300",
     dot: "bg-success-500 dark:bg-success-400",
     label: "ធម្មតា",
+    labelEn: "Normal",
   },
   low: {
     bg: "bg-warning-50 dark:bg-warning-900/20",
@@ -81,6 +97,7 @@ const statusConfig = {
     text: "text-warning-700 dark:text-warning-300",
     dot: "bg-warning-500 dark:bg-warning-400",
     label: "ទាប",
+    labelEn: "Low",
   },
   high: {
     bg: "bg-error-50 dark:bg-error-900/20",
@@ -88,6 +105,7 @@ const statusConfig = {
     text: "text-error-700 dark:text-error-300",
     dot: "bg-error-500 dark:bg-error-400",
     label: "ខ្ពស់",
+    labelEn: "High",
   },
 };
 
@@ -98,6 +116,7 @@ export default function SummaryScreen({
   history,
   selectedReportId,
   onDeleteReport,
+  language = "kh",
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
@@ -105,9 +124,18 @@ export default function SummaryScreen({
   const [helpOpen, setHelpOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const t = (kh, en) => (language === "en" ? en : kh);
 
   const report =
     history?.find((r) => r.id === selectedReportId) || history?.[0];
+  const reportType =
+    language === "en"
+      ? report?.typeEn || "Lab Result"
+      : report?.type || "លទ្ធផលពិសោធន៍";
+  const reportDate =
+    language === "en"
+      ? report?.date || "23 Jul 2026"
+      : report?.date || "២៣ កក្កដា ២០២៦";
 
   const handleDelete = () => {
     if (report) {
@@ -140,10 +168,10 @@ export default function SummaryScreen({
         </button>
         <div className="flex-1">
           <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">
-            សង្ខេបរបាយការណ៍
+            {t("សង្ខេបរបាយការណ៍", "Report Summary")}
           </h1>
           <p className="text-xs text-neutral-400 dark:text-neutral-500">
-            Report Summary
+            {t("Report Summary", "Report Summary")}
           </p>
         </div>
         <button
@@ -208,10 +236,10 @@ export default function SummaryScreen({
                 </svg>
                 <div>
                   <p className="text-sm font-medium text-neutral-800 dark:text-white">
-                    នាំចេញរបាយការណ៍
+                    {t("នាំចេញរបាយការណ៍", "Export report")}
                   </p>
                   <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                    Export Report
+                    {t("Export Report", "Export Report")}
                   </p>
                 </div>
               </button>
@@ -237,10 +265,10 @@ export default function SummaryScreen({
                 </svg>
                 <div>
                   <p className="text-sm font-medium text-error-600 dark:text-error-400">
-                    លុបរបាយការណ៍
+                    {t("លុបរបាយការណ៍", "Delete report")}
                   </p>
                   <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                    Delete Report
+                    {t("Delete Report", "Delete Report")}
                   </p>
                 </div>
               </button>
@@ -269,11 +297,14 @@ export default function SummaryScreen({
             </div>
             <div className="flex-1">
               <p className="text-base font-semibold text-neutral-900 dark:text-white">
-                {report?.type || "លទ្ធផលពិសោធន៍"}
+                {reportType}
               </p>
               <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                {report?.typeEn || "Lab Result"} ·{" "}
-                {report?.date || "២៣ កក្កដា ២០២៦"}
+                {t(
+                  report?.type || "លទ្ធផលពិសោធន៍",
+                  report?.typeEn || "Lab Result",
+                )}{" "}
+                · {reportDate}
               </p>
             </div>
           </div>
@@ -293,7 +324,10 @@ export default function SummaryScreen({
               />
             </svg>
             <p className="text-sm text-warning-700 dark:text-warning-300 font-medium">
-              រកឃើញ {report?.alerts || 2} ចំណុចត្រូវយកចិត្តទុកដាក់
+              {language === "en" ? "Found" : "រកឃើញ"} {report?.alerts || 2}{" "}
+              {language === "en"
+                ? "items to watch"
+                : "ចំណុចត្រូវយកចិត្តទុកដាក់"}
             </p>
           </div>
         </div>
@@ -302,7 +336,7 @@ export default function SummaryScreen({
       <div className="flex-1 px-6 pt-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base font-semibold text-neutral-800 dark:text-white">
-            លទ្ធផលសំខាន់ៗ
+            {t("លទ្ធផលសំខាន់ៗ", "Key Findings")}
           </h2>
           <button
             onClick={() => setIsPlaying(!isPlaying)}
@@ -322,7 +356,7 @@ export default function SummaryScreen({
               </svg>
             )}
             <span className="text-xs font-medium">
-              {isPlaying ? "កំពុងអាន" : "ស្ដាប់"}
+              {isPlaying ? t("កំពុងអាន", "Reading") : t("ស្ដាប់", "Listen")}
             </span>
           </button>
         </div>
@@ -340,21 +374,25 @@ export default function SummaryScreen({
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`w-2 h-2 rounded-full ${config.dot}`} />
-                      <p className="text-sm font-semibold text-neutral-800 dark:text-white">
-                        {finding.nameKh}
+                      <p className="text-sm font-semibold text-neutral-800 dark:text-black">
+                        {language === "en"
+                          ? finding.nameEn || finding.name
+                          : finding.nameKh}
                       </p>
                     </div>
                     <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-3">
-                      {finding.name}
+                      {language === "en" ? finding.section : finding.name}
                     </p>
                     <div className="flex items-center gap-3">
-                      <span className="text-lg font-bold text-neutral-900 dark:text-white">
+                      <span className="text-lg font-bold text-neutral-900 dark:text-black">
                         {finding.value}
                       </span>
                       <span
                         className={`text-xs font-medium px-2 py-1 rounded-lg ${config.bg} ${config.text}`}
                       >
-                        {config.label}
+                        {language === "en"
+                          ? config.labelEn || config.label
+                          : config.label}
                       </span>
                     </div>
                   </div>
@@ -373,7 +411,9 @@ export default function SummaryScreen({
                   </svg>
                 </div>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3 leading-relaxed">
-                  {finding.explanation}
+                  {language === "en"
+                    ? finding.explanationEn || finding.explanation
+                    : finding.explanation}
                 </p>
                 <div className="flex items-center gap-1.5 mt-3">
                   <svg
@@ -390,7 +430,8 @@ export default function SummaryScreen({
                     />
                   </svg>
                   <span className="text-[11px] font-medium text-primary-600 dark:text-primary-400">
-                    AI confidence: {finding.confidence}%
+                    {language === "en" ? "AI confidence" : "AI confidence"}:{" "}
+                    {finding.confidence}%
                   </span>
                   <span className="text-[10px] text-neutral-300 dark:text-neutral-600">
                     ·
@@ -452,7 +493,7 @@ export default function SummaryScreen({
               d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
             />
           </svg>
-          នាំចេញរបាយការណ៍
+          {t("នាំចេញរបាយការណ៍", "Export report")}
         </button>
 
         <button
@@ -472,7 +513,7 @@ export default function SummaryScreen({
               d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
             />
           </svg>
-          ផ្ញើទៅអ្នកថែទាំ
+          {t("ផ្ញើទៅអ្នកថែទាំ", "Send to caregiver")}
         </button>
       </div>
 

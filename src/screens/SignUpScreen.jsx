@@ -1,13 +1,14 @@
 import { useState } from "react";
 import logo from "../assets/splash-logo.png";
 
-export default function SignUpScreen({ onNavigate }) {
+export default function SignUpScreen({ onNavigate, language = "kh" }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const t = (kh, en) => (language === "en" ? en : kh);
 
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-slate-900 transition-colors">
@@ -23,20 +24,20 @@ export default function SignUpScreen({ onNavigate }) {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              ឈ្មោះពេញ
+              {t("ឈ្មោះពេញ", "Full Name")}
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="បញ្ចូលឈ្មោះរបស់អ្នក..."
+              placeholder={t("បញ្ចូលឈ្មោះរបស់អ្នក...", "Enter your name...")}
               className="w-full px-4 py-4 bg-neutral-50 dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-2xl text-base text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 focus:outline-none focus:border-primary-300 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-900"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              លេខទូរស័ព្ទ
+              {t("លេខទូរស័ព្ទ", "Phone Number")}
             </label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-400 dark:text-neutral-500">
@@ -54,14 +55,17 @@ export default function SignUpScreen({ onNavigate }) {
 
           <div>
             <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              ពាក្យសម្ងាត់
+              {t("ពាក្យសម្ងាត់", "Password")}
             </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="បញ្ចូលពាក្យសម្ងាត់..."
+                placeholder={t(
+                  "បញ្ចូលពាក្យសម្ងាត់...",
+                  "Enter your password...",
+                )}
                 className="w-full px-4 py-4 bg-neutral-50 dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-2xl text-base text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 focus:outline-none focus:border-primary-300 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-900"
               />
               <button
@@ -108,14 +112,17 @@ export default function SignUpScreen({ onNavigate }) {
 
           <div>
             <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              បញ្ជាក់ពាក្យសម្ងាត់
+              {t("បញ្ជាក់ពាក្យសម្ងាត់", "Confirm Password")}
             </label>
             <div className="relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="បញ្ចូលពាក្យសម្ងាត់ម្តងទៀត..."
+                placeholder={t(
+                  "បញ្ចូលពាក្យសម្ងាត់ម្តងទៀត...",
+                  "Re-enter your password...",
+                )}
                 className="w-full px-4 py-4 bg-neutral-50 dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-2xl text-base text-neutral-900 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 focus:outline-none focus:border-primary-300 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-900"
               />
               <button
@@ -167,13 +174,13 @@ export default function SignUpScreen({ onNavigate }) {
           onClick={() => onNavigate("home", { replace: true })}
           className="w-full py-4 bg-primary-600 text-white rounded-2xl text-base font-semibold shadow-lg shadow-primary-600/20 active:scale-[0.98] transition-transform"
         >
-          ចុះឈ្មោះ
+          {t("ចុះឈ្មោះ", "Create Account")}
         </button>
 
         <div className="flex items-center gap-4">
           <div className="flex-1 h-px bg-neutral-200 dark:bg-slate-700" />
           <span className="text-xs text-neutral-400 dark:text-neutral-500">
-            ឬ
+            {t("ឬ", "or")}
           </span>
           <div className="flex-1 h-px bg-neutral-200 dark:bg-slate-700" />
         </div>
@@ -200,16 +207,16 @@ export default function SignUpScreen({ onNavigate }) {
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
             />
           </svg>
-          ចុះឈ្មោះដោយប្រើ Google
+          {t("ចុះឈ្មោះដោយប្រើ Google", "Sign up with Google")}
         </button>
 
         <p className="text-center text-sm text-neutral-500 dark:text-neutral-400">
-          មានគណនីរួចហើយ?{" "}
+          {t("មានគណនីរួចហើយ?", "Already have an account?")}{" "}
           <button
             onClick={() => onNavigate("signIn")}
             className="text-primary-600 dark:text-primary-400 font-semibold"
           >
-            ចូលគណនី
+            {t("ចូលគណនី", "Sign In")}
           </button>
         </p>
       </div>

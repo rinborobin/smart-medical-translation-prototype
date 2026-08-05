@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 
 const stages = [
-  { id: 1, label: "កំពុងស្កេនអត្ថបទ", sub: "Scanning text" },
-  { id: 2, label: "កំពុងវិភាគ", sub: "Analysing" },
-  { id: 3, label: "កំពុងបកប្រែ", sub: "Translating" },
+  { id: 1, kh: "កំពុងស្កេនអត្ថបទ", en: "Scanning text" },
+  { id: 2, kh: "កំពុងវិភាគ", en: "Analysing" },
+  { id: 3, kh: "កំពុងបកប្រែ", en: "Translating" },
 ];
 
-export default function ProcessingScreen({ onNavigate }) {
+export default function ProcessingScreen({ onNavigate, language = "kh" }) {
   const [currentStage, setCurrentStage] = useState(0);
   const [progress, setProgress] = useState(0);
+  const t = (kh, en) => (language === "en" ? en : kh);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -91,7 +92,7 @@ export default function ProcessingScreen({ onNavigate }) {
                         : "text-neutral-400 dark:text-neutral-500"
                   }`}
                 >
-                  {stage.label}
+                  {t(stage.kh, stage.en)}
                 </p>
                 <p
                   className={`text-xs ${
@@ -102,7 +103,7 @@ export default function ProcessingScreen({ onNavigate }) {
                         : "text-neutral-300 dark:text-neutral-600"
                   }`}
                 >
-                  {stage.sub}
+                  {t(stage.en, stage.en)}
                 </p>
               </div>
             </div>
@@ -117,7 +118,7 @@ export default function ProcessingScreen({ onNavigate }) {
             />
           </div>
           <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-3 text-center">
-            សូមរង់ចាំ... {progress}%
+            {t("សូមរង់ចាំ...", "Please wait...")} {progress}%
           </p>
         </div>
       </div>

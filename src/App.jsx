@@ -141,6 +141,9 @@ function getHashScreen() {
 function App() {
   const [currentScreen, setCurrentScreen] = useState(getHashScreen);
   const [darkMode, setDarkMode] = useState(false);
+  const [language, setLanguage] = useState(() => {
+    return window.localStorage.getItem("language") || "kh";
+  });
   const [selectedFinding, setSelectedFinding] = useState(null);
   const [familyMembers, setFamilyMembers] = useState(initialFamilyMembers);
   const [notifications, setNotifications] = useState(initialNotifications);
@@ -155,6 +158,10 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    window.localStorage.setItem("language", language);
+  }, [language]);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -231,23 +238,36 @@ function App() {
           onComplete={() => navigate("signIn", { replace: true })}
         />
       )}
-      {currentScreen === "signIn" && <SignInScreen onNavigate={navigate} />}
-      {currentScreen === "signUp" && <SignUpScreen onNavigate={navigate} />}
+      {currentScreen === "signIn" && (
+        <SignInScreen onNavigate={navigate} language={language} />
+      )}
+      {currentScreen === "signUp" && (
+        <SignUpScreen onNavigate={navigate} language={language} />
+      )}
       {currentScreen === "home" && (
         <HomeScreen
           onNavigate={navigate}
           notifications={notifications}
           onSelectReport={navigateToSummary}
+          language={language}
         />
       )}
       {currentScreen === "scan" && (
-        <ScanScreen onNavigate={navigate} onGoBack={goBack} />
+        <ScanScreen
+          onNavigate={navigate}
+          onGoBack={goBack}
+          language={language}
+        />
       )}
       {currentScreen === "upload" && (
-        <UploadScreen onNavigate={navigate} onGoBack={goBack} />
+        <UploadScreen
+          onNavigate={navigate}
+          onGoBack={goBack}
+          language={language}
+        />
       )}
       {currentScreen === "processing" && (
-        <ProcessingScreen onNavigate={navigate} />
+        <ProcessingScreen onNavigate={navigate} language={language} />
       )}
       {currentScreen === "summary" && (
         <SummaryScreen
@@ -257,6 +277,7 @@ function App() {
           history={history}
           selectedReportId={selectedReportId}
           onDeleteReport={deleteReport}
+          language={language}
         />
       )}
       {currentScreen === "detail" && (
@@ -264,6 +285,7 @@ function App() {
           onNavigate={navigate}
           onGoBack={goBack}
           finding={selectedFinding}
+          language={language}
         />
       )}
       {currentScreen === "history" && (
@@ -272,6 +294,7 @@ function App() {
           onGoBack={goBack}
           history={history}
           onSelectReport={navigateToSummary}
+          language={language}
         />
       )}
       {currentScreen === "settings" && (
@@ -280,6 +303,8 @@ function App() {
           onGoBack={goBack}
           darkMode={darkMode}
           setDarkMode={setDarkMode}
+          language={language}
+          setLanguage={setLanguage}
         />
       )}
       {currentScreen === "caregiver" && (
@@ -287,10 +312,15 @@ function App() {
           onNavigate={navigate}
           familyMembers={familyMembers}
           onSelectMember={navigateToFamilyProfile}
+          language={language}
         />
       )}
       {currentScreen === "addFamily" && (
-        <AddFamilyScreen onNavigate={navigate} onAdd={addFamilyMember} />
+        <AddFamilyScreen
+          onNavigate={navigate}
+          onAdd={addFamilyMember}
+          language={language}
+        />
       )}
       {currentScreen === "familyProfile" && (
         <FamilyProfileScreen
@@ -299,16 +329,22 @@ function App() {
           familyMembers={familyMembers}
           selectedId={selectedFamilyMemberId}
           onDelete={deleteFamilyMember}
+          language={language}
         />
       )}
       {currentScreen === "qrCode" && (
-        <QRCodeScreen onNavigate={navigate} onGoBack={goBack} />
+        <QRCodeScreen
+          onNavigate={navigate}
+          onGoBack={goBack}
+          language={language}
+        />
       )}
       {currentScreen === "notifications" && (
         <NotificationsScreen
           onNavigate={navigate}
           onGoBack={goBack}
           notifications={notifications}
+          language={language}
         />
       )}
     </div>

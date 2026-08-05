@@ -4,7 +4,9 @@ export default function HomeScreen({
   onNavigate,
   notifications,
   onSelectReport,
+  language = "kh",
 }) {
+  const t = (kh, en) => (language === "en" ? en : kh);
   const unreadCount = notifications?.filter((n) => !n.read).length || 0;
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
@@ -44,7 +46,7 @@ export default function HomeScreen({
 
         <div className="mb-6">
           <p className="text-sm text-neutral-400 dark:text-neutral-500">
-            សួស្តី 👋
+            {t("សួស្តី 👋", "Hello 👋")}
           </p>
           <h1 className="text-xl font-bold text-neutral-900 dark:text-white mt-0.5">
             សុខា រីក
@@ -63,6 +65,10 @@ export default function HomeScreen({
               stroke="currentColor"
               strokeWidth={1.5}
             >
+              const reportType = language === "en" ? "Lab Result" :
+              "លទ្ធផលពិសោធន៍"; const reportDate = language === "en" ? "23 Jul
+              2026" : "២៣ កក្កដា ២០២៦"; const secondReportDate = language ===
+              "en" ? "01 Jul 2026" : "០១ កក្កដា ២០២៦";
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -76,8 +82,12 @@ export default function HomeScreen({
             </svg>
           </div>
           <div className="text-center">
-            <p className="text-xl font-bold text-white">ស្កេនរបាយការណ៍</p>
-            <p className="text-sm text-white/60 mt-1">Scan Report</p>
+            <p className="text-xl font-bold text-white">
+              {t("ស្កេនរបាយការណ៍", "Scan Report")}
+            </p>
+            <p className="text-sm text-white/60 mt-1">
+              {t("Scan Report", "Scan Report")}
+            </p>
           </div>
         </button>
 
@@ -102,10 +112,10 @@ export default function HomeScreen({
           </div>
           <div className="flex-1 text-left">
             <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-              បង្ហោះពីរូបភាព
+              {t("បង្ហោះពីរូបភាព", "Upload from Gallery")}
             </p>
             <p className="text-xs text-neutral-400 dark:text-neutral-500">
-              Upload from Gallery
+              {t("Upload from Gallery", "Upload from Gallery")}
             </p>
           </div>
           <svg
@@ -147,10 +157,10 @@ export default function HomeScreen({
             </div>
             <div className="text-left">
               <p className="text-sm font-semibold text-neutral-800 dark:text-white">
-                ប្រវត្តិ
+                {t("ប្រវត្តិ", "History")}
               </p>
               <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                History
+                {t("History", "History")}
               </p>
             </div>
           </button>
@@ -176,10 +186,10 @@ export default function HomeScreen({
             </div>
             <div className="text-left">
               <p className="text-sm font-semibold text-neutral-800 dark:text-white">
-                អ្នកថែទាំ
+                {t("អ្នកថែទាំ", "Caregiver")}
               </p>
               <p className="text-xs text-neutral-400 dark:text-neutral-500">
-                Caregiver
+                {t("Caregiver", "Caregiver")}
               </p>
             </div>
           </button>
@@ -187,13 +197,13 @@ export default function HomeScreen({
 
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-base font-semibold text-neutral-800 dark:text-white">
-            របាយការណ៍ថ្មីៗ
+            {t("របាយការណ៍ថ្មីៗ", "Recent Reports")}
           </h2>
           <button
             onClick={() => onNavigate("history")}
             className="text-sm text-primary-600 dark:text-primary-400 font-medium"
           >
-            មើលទាំងអស់
+            {t("មើលទាំងអស់", "View all")}
           </button>
         </div>
 
@@ -226,7 +236,7 @@ export default function HomeScreen({
               </p>
               <div className="flex items-center gap-2 mt-2">
                 <span className="w-2 h-2 bg-warning-500 dark:bg-warning-400 rounded-full" />
-                <span className="text-xs font-medium text-warning-700 dark:text-warning-300">
+                <span className="text-xs font-medium text-warning-700 dark:text-white">
                   ២ ការជូនដំណឹង
                 </span>
               </div>
@@ -276,7 +286,7 @@ export default function HomeScreen({
               </p>
               <div className="flex items-center gap-2 mt-2">
                 <span className="w-2 h-2 bg-success-500 dark:bg-success-400 rounded-full" />
-                <span className="text-xs font-medium text-success-700 dark:text-success-300">
+                <span className="text-xs font-medium text-success-700 dark:text-white">
                   ទាំងអស់ធម្មតា
                 </span>
               </div>
@@ -315,7 +325,7 @@ export default function HomeScreen({
               />
             </svg>
             <span className="text-xs font-medium text-primary-600 dark:text-primary-400">
-              ទំព័រដើម
+              {t("ទំព័រដើម", "Home")}
             </span>
           </button>
           <button
@@ -336,7 +346,7 @@ export default function HomeScreen({
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              អ្នកថែទាំ
+              {t("អ្នកថែទាំ", "Caregiver")}
             </span>
           </button>
           <button
@@ -357,7 +367,7 @@ export default function HomeScreen({
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              ប្រវត្តិ
+              {t("ប្រវត្តិ", "History")}
             </span>
           </button>
           <button
@@ -383,7 +393,7 @@ export default function HomeScreen({
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              ការកំណត់
+              {t("ការកំណត់", "Settings")}
             </span>
           </button>
         </div>

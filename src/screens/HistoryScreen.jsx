@@ -20,10 +20,17 @@ const sortOptions = [
   { value: "status", label: "ស្ថានភាព", labelEn: "Status" },
 ];
 
-export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectReport }) {
+export default function HistoryScreen({
+  onNavigate,
+  onGoBack,
+  history,
+  onSelectReport,
+  language = "kh",
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
+  const t = (kh, en) => (language === "en" ? en : kh);
 
   const filteredHistory = history
     .filter(
@@ -65,7 +72,7 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
           </svg>
         </button>
         <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">
-          ប្រវត្តិ
+          {t("ប្រវត្តិ", "History")}
         </h1>
       </div>
 
@@ -87,7 +94,7 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
             </svg>
             <input
               type="text"
-              placeholder="ស្វែងរករបាយការណ៍..."
+              placeholder={t("ស្វែងរករបាយការណ៍...", "Search reports...")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-2xl text-sm text-neutral-800 dark:text-white placeholder:text-neutral-300 dark:placeholder:text-neutral-600 focus:outline-none focus:border-primary-300 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-900"
@@ -129,16 +136,32 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
                     }`}
                   >
                     <div>
-                      <p className={`text-sm font-medium ${
-                        sortBy === option.value
-                          ? "text-primary-700 dark:text-primary-300"
-                          : "text-neutral-800 dark:text-white"
-                      }`}>{option.label}</p>
-                      <p className="text-xs text-neutral-400 dark:text-neutral-500">{option.labelEn}</p>
+                      <p
+                        className={`text-sm font-medium ${
+                          sortBy === option.value
+                            ? "text-primary-700 dark:text-primary-300"
+                            : "text-neutral-800 dark:text-white"
+                        }`}
+                      >
+                        {option.label}
+                      </p>
+                      <p className="text-xs text-neutral-400 dark:text-neutral-500">
+                        {option.labelEn}
+                      </p>
                     </div>
                     {sortBy === option.value && (
-                      <svg className="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                      <svg
+                        className="w-5 h-5 text-primary-600 dark:text-primary-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m4.5 12.75 6 6 9-13.5"
+                        />
                       </svg>
                     )}
                   </button>
@@ -151,7 +174,7 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
 
       <div className="flex-1 px-6 space-y-3 pb-24">
         <p className="text-xs text-neutral-400 dark:text-neutral-500 font-medium uppercase tracking-wide">
-          កក្កដា ២០២៦
+          {t("កក្កដា ២០២៦", "July 2026")}
         </p>
 
         {history.length === 0 && (
@@ -173,17 +196,20 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
             </div>
             <div>
               <p className="text-base font-semibold text-neutral-800 dark:text-white mb-1">
-                មិនទាន់មានរបាយការណ៍
+                {t("មិនទាន់មានរបាយការណ៍", "No reports yet")}
               </p>
               <p className="text-sm text-neutral-500 dark:text-neutral-400 max-w-xs">
-                ស្កេនរបាយការណ៍ដំបូងរបស់អ្នក ដើម្បីចាប់ផ្ដើមតាមដានសុខភាព
+                {t(
+                  "ស្កេនរបាយការណ៍ដំបូងរបស់អ្នក ដើម្បីចាប់ផ្ដើមតាមដានសុខភាព",
+                  "Scan your first report to start tracking health",
+                )}
               </p>
             </div>
             <button
               onClick={() => onNavigate("scan", { replace: true })}
               className="px-6 py-3 bg-primary-600 text-white rounded-2xl text-sm font-semibold shadow-lg shadow-primary-600/20 active:scale-95 transition-transform"
             >
-              ស្កេនរបាយការណ៍ដំបូង
+              {t("ស្កេនរបាយការណ៍ដំបូង", "Scan first report")}
             </button>
           </div>
         )}
@@ -206,7 +232,7 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
               </svg>
             </div>
             <p className="text-sm text-neutral-400 dark:text-neutral-500">
-              រកមិនឃើញរបាយការណ៍
+              {t("រកមិនឃើញរបាយការណ៍", "No reports found")}
             </p>
           </div>
         )}
@@ -219,68 +245,68 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
               onClick={() => onSelectReport(report.id)}
               className={`w-full text-left p-5 rounded-2xl border bg-white dark:bg-slate-800 ${colors.border} transition-all active:scale-[0.98]`}
             >
-                <div className="flex items-start gap-4">
-                  <div
-                    className={`w-12 h-12 ${colors.bg} rounded-xl flex items-center justify-center shrink-0`}
-                  >
-                    <svg
-                      className={`w-6 h-6 ${colors.icon}`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={1.5}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"
-                      />
-                    </svg>
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-neutral-800 dark:text-white">
-                      {report.type}
-                    </p>
-                    <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">
-                      {report.typeEn}
-                    </p>
-
-                    <div className="flex items-center gap-3 mt-3">
-                      <span className="text-xs text-neutral-400 dark:text-neutral-500">
-                        {report.date}
-                      </span>
-                      <span className="w-1 h-1 bg-neutral-200 dark:bg-slate-600 rounded-full" />
-                      <span className="text-xs text-neutral-400 dark:text-neutral-500">
-                        {report.findings} ចំណុច
-                      </span>
-                      {report.alerts > 0 && (
-                        <>
-                          <span className="w-1 h-1 bg-neutral-200 dark:bg-slate-600 rounded-full" />
-                          <span className={`text-xs font-medium ${colors.icon}`}>
-                            {report.alerts} ការជូនដំណឹង
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
+              <div className="flex items-start gap-4">
+                <div
+                  className={`w-12 h-12 ${colors.bg} rounded-xl flex items-center justify-center shrink-0`}
+                >
                   <svg
-                    className="w-5 h-5 text-neutral-300 dark:text-neutral-600 mt-1 shrink-0"
+                    className={`w-6 h-6 ${colors.icon}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                      d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"
                     />
                   </svg>
                 </div>
-              </button>
-            );
+
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-neutral-800 dark:text-white">
+                    {report.type}
+                  </p>
+                  <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">
+                    {report.typeEn}
+                  </p>
+
+                  <div className="flex items-center gap-3 mt-3">
+                    <span className="text-xs text-neutral-400 dark:text-neutral-500">
+                      {report.date}
+                    </span>
+                    <span className="w-1 h-1 bg-neutral-200 dark:bg-slate-600 rounded-full" />
+                    <span className="text-xs text-neutral-400 dark:text-neutral-500">
+                      {report.findings} ចំណុច
+                    </span>
+                    {report.alerts > 0 && (
+                      <>
+                        <span className="w-1 h-1 bg-neutral-200 dark:bg-slate-600 rounded-full" />
+                        <span className={`text-xs font-medium ${colors.icon}`}>
+                          {report.alerts} ការជូនដំណឹង
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <svg
+                  className="w-5 h-5 text-neutral-300 dark:text-neutral-600 mt-1 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </div>
+            </button>
+          );
         })}
       </div>
 
@@ -304,7 +330,7 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              ទំព័រដើម
+              {t("ទំព័រដើម", "Home")}
             </span>
           </button>
           <button
@@ -325,7 +351,7 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              អ្នកថែទាំ
+              {t("អ្នកថែទាំ", "Caregiver")}
             </span>
           </button>
           <button className="flex flex-col items-center gap-1">
@@ -343,7 +369,7 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
               />
             </svg>
             <span className="text-xs font-medium text-primary-600 dark:text-primary-400">
-              ប្រវត្តិ
+              {t("ប្រវត្តិ", "History")}
             </span>
           </button>
           <button
@@ -369,12 +395,11 @@ export default function HistoryScreen({ onNavigate, onGoBack, history, onSelectR
               />
             </svg>
             <span className="text-xs text-neutral-400 dark:text-neutral-500">
-              ការកំណត់
+              {t("ការកំណត់", "Settings")}
             </span>
           </button>
         </div>
       </div>
-
     </div>
   );
 }

@@ -1,4 +1,5 @@
-export default function ScanScreen({ onNavigate, onGoBack }) {
+export default function ScanScreen({ onNavigate, onGoBack, language = "kh" }) {
+  const t = (kh, en) => (language === "en" ? en : kh);
   return (
     <div className="flex flex-col min-h-screen bg-neutral-900">
       <div className="flex items-center gap-3 px-6 pt-14 pb-4">
@@ -6,12 +7,22 @@ export default function ScanScreen({ onNavigate, onGoBack }) {
           onClick={onGoBack}
           className="w-11 h-11 bg-white/10 rounded-2xl flex items-center justify-center"
         >
-          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          <svg
+            className="w-5 h-5 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5 8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
         <h1 className="text-lg font-semibold text-white">
-          ស្កេនរបាយការណ៍
+          {t("ស្កេនរបាយការណ៍", "Scan Report")}
         </h1>
       </div>
 
@@ -27,45 +38,78 @@ export default function ScanScreen({ onNavigate, onGoBack }) {
           </div>
 
           <div className="absolute inset-0 flex items-center justify-center">
-            <svg className="w-12 h-12 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            <svg
+              className="w-12 h-12 text-white/20"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+              />
             </svg>
           </div>
         </div>
 
         <p className="text-sm text-white/60 mt-6 text-center">
-          ដាក់របាយការណ៍ក្នុងប្រអប់
+          {t("ដាក់របាយការណ៍ក្នុងប្រអប់", "Place the report in the frame")}
         </p>
         <p className="text-xs text-white/30 mt-1">
-          Place the report inside the frame
+          {t(
+            "Place the report inside the frame",
+            "Place the report inside the frame",
+          )}
         </p>
       </div>
 
       <div className="px-6 pb-12 pt-8">
         <div className="flex items-center justify-between">
           <button className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
+              />
             </svg>
           </button>
 
           <button
-            onClick={() => onNavigate('processing')}
+            onClick={() => onNavigate("processing")}
             className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg shadow-white/20 active:scale-95 transition-transform"
           >
             <div className="w-16 h-16 border-4 border-neutral-900 rounded-full" />
           </button>
 
           <button
-            onClick={() => onNavigate('upload')}
+            onClick={() => onNavigate("upload")}
             className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center"
           >
-            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"
+              />
             </svg>
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

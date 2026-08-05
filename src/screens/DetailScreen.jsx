@@ -1,126 +1,271 @@
-import { useState } from 'react'
-import SendToCaregiverModal from '../components/SendToCaregiverModal'
-import HelpBottomSheet from '../components/HelpBottomSheet'
+import { useState } from "react";
+import SendToCaregiverModal from "../components/SendToCaregiverModal";
+import HelpBottomSheet from "../components/HelpBottomSheet";
 
 const findingDetails = {
-  'CRP Quantitative': {
+  "CRP Quantitative": {
+    glossaryEn: [
+      {
+        term: "CRP",
+        definition: "C-reactive protein, a marker of inflammation",
+      },
+      { term: "SEROLOGY", definition: "Blood serum testing" },
+      { term: "mg/L", definition: "Milligrams per liter" },
+    ],
     glossary: [
-      { term: 'CRP', definition: 'C-Reactive Protein សារធាតុបង្ហាញការរលាក' },
-      { term: 'SEROLOGY', definition: 'ការពិនិត្យសេរ៉ូមក្នុងឈាម' },
-      { term: 'mg/L', definition: 'មីលីក្រាមក្នុងមួយលីត្រ' },
+      { term: "CRP", definition: "C-Reactive Protein សារធាតុបង្ហាញការរលាក" },
+      { term: "SEROLOGY", definition: "ការពិនិត្យសេរ៉ូមក្នុងឈាម" },
+      { term: "mg/L", definition: "មីលីក្រាមក្នុងមួយលីត្រ" },
+    ],
+    recommendationsEn: [
+      "Talk with a clinician to review the possible cause of inflammation.",
+      "Watch for symptoms such as fever, pain, or swelling.",
+      "Repeat the CRP test in 2-4 weeks if recommended.",
     ],
     recommendations: [
-      'សូមពិគ្រោះជាមួយគ្រូពេទ្យដើម្បីវាយតម្លៃមូលហេតុនៃការរលាក',
-      'តាមដានរោគសញ្ញាដូចជា គ្រុនក្ដៅ ឈឺចាប់ ឬហើម',
-      'អាចត្រូវពិនិត្យ CRP ឡើងវិញក្នុងរយៈពេល ២-៤ សប្ដាហ៍',
+      "សូមពិគ្រោះជាមួយគ្រូពេទ្យដើម្បីវាយតម្លៃមូលហេតុនៃការរលាក",
+      "តាមដានរោគសញ្ញាដូចជា គ្រុនក្ដៅ ឈឺចាប់ ឬហើម",
+      "អាចត្រូវពិនិត្យ CRP ឡើងវិញក្នុងរយៈពេល ២-៤ សប្ដាហ៍",
     ],
-    fullExplanation: 'កម្រិតស៊ីអ៊ារភី (CRP) របស់អ្នកគឺ <strong>3.5 mg/L</strong> ដែលខ្ពស់ជាងកម្រិតធម្មតា (&lt; 3 mg/L) បន្តិច។ CRP គឺជាសារធាតុប្រូតេអ៊ីនដែលផលិតដោយថ្លើម នៅពេលមានការរលាកក្នុងរាងកាយ។ កម្រិតខ្ពស់បន្តិចអាចបង្ហាញពីការរលាកស្រាល ឬការបង្ករោគ។',
+    fullExplanationEn:
+      "Your CRP level is <strong>3.5 mg/L</strong>, which is slightly above the normal range (&lt; 3 mg/L). CRP is a protein made by the liver when there is inflammation in the body. A mild increase can point to inflammation or infection.",
+    fullExplanation:
+      "កម្រិតស៊ីអ៊ារភី (CRP) របស់អ្នកគឺ <strong>3.5 mg/L</strong> ដែលខ្ពស់ជាងកម្រិតធម្មតា (&lt; 3 mg/L) បន្តិច។ CRP គឺជាសារធាតុប្រូតេអ៊ីនដែលផលិតដោយថ្លើម នៅពេលមានការរលាកក្នុងរាងកាយ។ កម្រិតខ្ពស់បន្តិចអាចបង្ហាញពីការរលាកស្រាល ឬការបង្ករោគ។",
     barConfig: {
-      gradientType: 'threshold',
-      markerPosition: '65%',
-      markerColor: 'border-warning-500 dark:border-warning-400',
-      labels: ['ធម្មតា (<3)', 'ខ្ពស់បន្តិច', 'ខ្ពស់'],
+      gradientType: "threshold",
+      markerPosition: "65%",
+      markerColor: "border-warning-500 dark:border-warning-400",
+      labelsEn: ["Normal (<3)", "Slightly high", "High"],
+      labels: ["ធម្មតា (<3)", "ខ្ពស់បន្តិច", "ខ្ពស់"],
     },
   },
-  'Hemoglobin': {
+  Hemoglobin: {
+    glossaryEn: [
+      {
+        term: "Hemoglobin",
+        definition: "Protein in red blood cells that carries oxygen",
+      },
+      {
+        term: "HEMATOLOGY",
+        definition: "The study of blood and blood disorders",
+      },
+      { term: "g/dL", definition: "Grams per deciliter" },
+    ],
     glossary: [
-      { term: 'Hemoglobin', definition: 'ប្រូតេអ៊ីនក្នុងគ្រាប់ឈាមក្រហមដែលដឹកអុកស៊ីសែន' },
-      { term: 'HEMATOLOGY', definition: 'ការសិក្សាអំពីឈាម និងជំងឺឈាម' },
-      { term: 'g/dL', definition: 'ក្រាមក្នុងមួយដេស៊ីលីត្រ' },
+      {
+        term: "Hemoglobin",
+        definition: "ប្រូតេអ៊ីនក្នុងគ្រាប់ឈាមក្រហមដែលដឹកអុកស៊ីសែន",
+      },
+      { term: "HEMATOLOGY", definition: "ការសិក្សាអំពីឈាម និងជំងឺឈាម" },
+      { term: "g/dL", definition: "ក្រាមក្នុងមួយដេស៊ីលីត្រ" },
+    ],
+    recommendationsEn: [
+      "Eat iron-rich foods such as red meat, spinach, and beans.",
+      "Discuss iron supplementation with your clinician.",
+      "Recheck the blood test in 1-3 months.",
     ],
     recommendations: [
-      'បរិភោគអាហារសម្បូរជាតិដែកដូចជា សាច់ក្រហម ស្ពៃខ្មៅ សណ្ដែក',
-      'ពិគ្រោះជាមួយគ្រូពេទ្យអំពីការបំពេញជាតិដែក',
-      'ពិនិត្យឈាមឡើងវិញក្នុងរយៈពេល ១-៣ ខែ',
+      "បរិភោគអាហារសម្បូរជាតិដែកដូចជា សាច់ក្រហម ស្ពៃខ្មៅ សណ្ដែក",
+      "ពិគ្រោះជាមួយគ្រូពេទ្យអំពីការបំពេញជាតិដែក",
+      "ពិនិត្យឈាមឡើងវិញក្នុងរយៈពេល ១-៣ ខែ",
     ],
-    fullExplanation: 'កម្រិតអេម៉ូក្លូប៊ីនរបស់អ្នកគឺ <strong>11.8 g/dL</strong> ដែលទាបជាងកម្រិតធម្មតា (12.0 - 15.5 g/dL) បន្តិច។ អេម៉ូក្លូប៊ីនគឺជាប្រូតេអ៊ីនក្នុងគ្រាប់ឈាមក្រហមដែលដឹកអុកស៊ីសែនទៅកាន់រាងកាយ។ កម្រិតទាបអាចបណ្ដាលឱ្យមានអាការៈហត់ អស់កម្លាំង ឬវិលមុខ។',
+    fullExplanationEn:
+      "Your hemoglobin is <strong>11.8 g/dL</strong>, which is slightly below the normal range (12.0 - 15.5 g/dL). Hemoglobin is the protein in red blood cells that carries oxygen around the body. A low level can cause tiredness, fatigue, or dizziness.",
+    fullExplanation:
+      "កម្រិតអេម៉ូក្លូប៊ីនរបស់អ្នកគឺ <strong>11.8 g/dL</strong> ដែលទាបជាងកម្រិតធម្មតា (12.0 - 15.5 g/dL) បន្តិច។ អេម៉ូក្លូប៊ីនគឺជាប្រូតេអ៊ីនក្នុងគ្រាប់ឈាមក្រហមដែលដឹកអុកស៊ីសែនទៅកាន់រាងកាយ។ កម្រិតទាបអាចបណ្ដាលឱ្យមានអាការៈហត់ អស់កម្លាំង ឬវិលមុខ។",
     barConfig: {
-      gradientType: 'range',
-      markerPosition: '18%',
-      markerColor: 'border-warning-500 dark:border-warning-400',
-      labels: ['ទាប', 'ធម្មតា (12-15.5)', 'ខ្ពស់'],
+      gradientType: "range",
+      markerPosition: "18%",
+      markerColor: "border-warning-500 dark:border-warning-400",
+      labelsEn: ["Low", "Normal (12-15.5)", "High"],
+      labels: ["ទាប", "ធម្មតា (12-15.5)", "ខ្ពស់"],
     },
   },
-  'WBC': {
+  WBC: {
+    glossaryEn: [
+      {
+        term: "WBC",
+        definition: "White blood cells that help protect the body",
+      },
+      {
+        term: "HEMATOLOGY",
+        definition: "The study of blood and blood disorders",
+      },
+      { term: "/μL", definition: "Cells per microliter" },
+    ],
     glossary: [
-      { term: 'WBC', definition: 'White Blood Cells កោសិកាឈាមសដែលការពាររាងកាយ' },
-      { term: 'HEMATOLOGY', definition: 'ការសិក្សាអំពីឈាម និងជំងឺឈាម' },
-      { term: '/μL', definition: 'កោសិកាក្នុងមួយមីក្រូលីត្រ' },
+      {
+        term: "WBC",
+        definition: "White Blood Cells កោសិកាឈាមសដែលការពាររាងកាយ",
+      },
+      { term: "HEMATOLOGY", definition: "ការសិក្សាអំពីឈាម និងជំងឺឈាម" },
+      { term: "/μL", definition: "កោសិកាក្នុងមួយមីក្រូលីត្រ" },
+    ],
+    recommendationsEn: [
+      "White blood cells are in the normal range, so no extra action is needed.",
+      "Continue healthy habits with nutritious meals.",
+      "Follow up with blood tests as advised by your clinician.",
     ],
     recommendations: [
-      'កម្រិតកោសិកាឈាមសធម្មតា មិនចាំបាច់ធ្វើអ្វីបន្ថែម',
-      'បន្តរក្សាសុខភាពល្អតាមរយៈការញ៉ាំអាហារមានជីវជាតិ',
-      'ពិនិត្យឈាមតាមការណែនាំរបស់គ្រូពេទ្យ',
+      "កម្រិតកោសិកាឈាមសធម្មតា មិនចាំបាច់ធ្វើអ្វីបន្ថែម",
+      "បន្តរក្សាសុខភាពល្អតាមរយៈការញ៉ាំអាហារមានជីវជាតិ",
+      "ពិនិត្យឈាមតាមការណែនាំរបស់គ្រូពេទ្យ",
     ],
-    fullExplanation: 'កម្រិតកោសិកាឈាមសរបស់អ្នកគឺ <strong>7,200 /μL</strong> ដែលស្ថិតក្នុងដែនកំណត់ធម្មតា (4,000 - 11,000 /μL)។ កោសិកាឈាមសជួយការពាររាងកាយពីការបង្ករោគ។ កម្រិតធម្មតាបង្ហាញថាប្រព័ន្ធភាពស៊ាំរបស់អ្នកដំណើរការល្អ។',
+    fullExplanationEn:
+      "Your white blood cell count is <strong>7,200 /μL</strong>, which is within the normal range (4,000 - 11,000 /μL). White blood cells help protect the body from infection. A normal result suggests your immune system is working well.",
+    fullExplanation:
+      "កម្រិតកោសិកាឈាមសរបស់អ្នកគឺ <strong>7,200 /μL</strong> ដែលស្ថិតក្នុងដែនកំណត់ធម្មតា (4,000 - 11,000 /μL)។ កោសិកាឈាមសជួយការពាររាងកាយពីការបង្ករោគ។ កម្រិតធម្មតាបង្ហាញថាប្រព័ន្ធភាពស៊ាំរបស់អ្នកដំណើរការល្អ។",
     barConfig: {
-      gradientType: 'range',
-      markerPosition: '45%',
-      markerColor: 'border-success-500 dark:border-success-400',
-      labels: ['ទាប (<4K)', 'ធម្មតា (4K-11K)', 'ខ្ពស់ (>11K)'],
+      gradientType: "range",
+      markerPosition: "45%",
+      markerColor: "border-success-500 dark:border-success-400",
+      labelsEn: ["Low (<4K)", "Normal (4K-11K)", "High (>11K)"],
+      labels: ["ទាប (<4K)", "ធម្មតា (4K-11K)", "ខ្ពស់ (>11K)"],
     },
   },
-  'Platelets': {
+  Platelets: {
+    glossaryEn: [
+      { term: "Platelets", definition: "Cells that help the blood clot" },
+      {
+        term: "HEMATOLOGY",
+        definition: "The study of blood and blood disorders",
+      },
+      { term: "/μL", definition: "Cells per microliter" },
+    ],
     glossary: [
-      { term: 'Platelets', definition: 'ប្លាកែត កោសិកាជួយកកឈាម' },
-      { term: 'HEMATOLOGY', definition: 'ការសិក្សាអំពីឈាម និងជំងឺឈាម' },
-      { term: '/μL', definition: 'កោសិកាក្នុងមួយមីក្រូលីត្រ' },
+      { term: "Platelets", definition: "ប្លាកែត កោសិកាជួយកកឈាម" },
+      { term: "HEMATOLOGY", definition: "ការសិក្សាអំពីឈាម និងជំងឺឈាម" },
+      { term: "/μL", definition: "កោសិកាក្នុងមួយមីក្រូលីត្រ" },
+    ],
+    recommendationsEn: [
+      "Platelet count is normal, so there is no need to worry.",
+      "Keep up healthy habits and regular exercise.",
+      "Follow your clinician's guidance for future blood tests.",
     ],
     recommendations: [
-      'ចំនួនប្លាកែតធម្មតា មិនចាំបាច់ព្រួយបារម្ភ',
-      'បន្តរក្សាសុខភាពល្អ និងការហាត់ប្រាណទៀងទាត់',
-      'ពិនិត្យឈាមតាមការណែនាំរបស់គ្រូពេទ្យ',
+      "ចំនួនប្លាកែតធម្មតា មិនចាំបាច់ព្រួយបារម្ភ",
+      "បន្តរក្សាសុខភាពល្អ និងការហាត់ប្រាណទៀងទាត់",
+      "ពិនិត្យឈាមតាមការណែនាំរបស់គ្រូពេទ្យ",
     ],
-    fullExplanation: 'ចំនួនប្លាកែតរបស់អ្នកគឺ <strong>245,000 /μL</strong> ដែលស្ថិតក្នុងដែនកំណត់ធម្មតា (150,000 - 400,000 /μL)។ ប្លាកែតជួយឱ្យឈាមកក នៅពេលមានរបួស។ កម្រិតធម្មតាបង្ហាញថាការកកឈាមរបស់អ្នកដំណើរការល្អ។',
+    fullExplanationEn:
+      "Your platelet count is <strong>245,000 /μL</strong>, which is within the normal range (150,000 - 400,000 /μL). Platelets help the blood clot after an injury. A normal result suggests clotting is working well.",
+    fullExplanation:
+      "ចំនួនប្លាកែតរបស់អ្នកគឺ <strong>245,000 /μL</strong> ដែលស្ថិតក្នុងដែនកំណត់ធម្មតា (150,000 - 400,000 /μL)។ ប្លាកែតជួយឱ្យឈាមកក នៅពេលមានរបួស។ កម្រិតធម្មតាបង្ហាញថាការកកឈាមរបស់អ្នកដំណើរការល្អ។",
     barConfig: {
-      gradientType: 'range',
-      markerPosition: '42%',
-      markerColor: 'border-success-500 dark:border-success-400',
-      labels: ['ទាប (<150K)', 'ធម្មតា (150K-400K)', 'ខ្ពស់ (>400K)'],
+      gradientType: "range",
+      markerPosition: "42%",
+      markerColor: "border-success-500 dark:border-success-400",
+      labelsEn: ["Low (<150K)", "Normal (150K-400K)", "High (>400K)"],
+      labels: ["ទាប (<150K)", "ធម្មតា (150K-400K)", "ខ្ពស់ (>400K)"],
     },
   },
-  'Neutrophils': {
+  Neutrophils: {
+    glossaryEn: [
+      {
+        term: "Neutrophils",
+        definition: "A type of white blood cell that fights bacteria",
+      },
+      {
+        term: "HEMATOLOGY",
+        definition: "The study of blood and blood disorders",
+      },
+      { term: "%", definition: "Percent of the total white blood cells" },
+    ],
     glossary: [
-      { term: 'Neutrophils', definition: 'ប្រភេទកោសិកាឈាមសដែលប្រយុទ្ធប្រឆាំងបាក់តេរី' },
-      { term: 'HEMATOLOGY', definition: 'ការសិក្សាអំពីឈាម និងជំងឺឈាម' },
-      { term: '%', definition: 'ភាគរយនៃកោសិកាឈាមសសរុប' },
+      {
+        term: "Neutrophils",
+        definition: "ប្រភេទកោសិកាឈាមសដែលប្រយុទ្ធប្រឆាំងបាក់តេរី",
+      },
+      { term: "HEMATOLOGY", definition: "ការសិក្សាអំពីឈាម និងជំងឺឈាម" },
+      { term: "%", definition: "ភាគរយនៃកោសិកាឈាមសសរុប" },
+    ],
+    recommendationsEn: [
+      "Neutrophil levels are normal and there is no sign of infection.",
+      "Continue good hygiene and infection prevention.",
+      "Follow up with blood tests as advised by your clinician.",
     ],
     recommendations: [
-      'សមាមាត្រណឺត្រូហ្វីលធម្មតា គ្មានសញ្ញានៃការបង្ករោគ',
-      'បន្តរក្សាអនាម័យល្អ និងការពារពីការឆ្លងរោគ',
-      'ពិនិត្យឈាមតាមការណែនាំរបស់គ្រូពេទ្យ',
+      "សមាមាត្រណឺត្រូហ្វីលធម្មតា គ្មានសញ្ញានៃការបង្ករោគ",
+      "បន្តរក្សាអនាម័យល្អ និងការពារពីការឆ្លងរោគ",
+      "ពិនិត្យឈាមតាមការណែនាំរបស់គ្រូពេទ្យ",
     ],
-    fullExplanation: 'សមាមាត្រណឺត្រូហ្វីលរបស់អ្នកគឺ <strong>58%</strong> ដែលស្ថិតក្នុងដែនកំណត់ធម្មតា (40 - 70%)។ ណឺត្រូហ្វីលគឺជាប្រភេទកោសិកាឈាមសដែលប្រយុទ្ធប្រឆាំងនឹងបាក់តេរី។ សមាមាត្រធម្មតាបង្ហាញថាគ្មានសញ្ញានៃការបង្ករោគធ្ងន់ធ្ងរ។',
+    fullExplanationEn:
+      "Your neutrophil percentage is <strong>58%</strong>, which is within the normal range (40 - 70%). Neutrophils are a type of white blood cell that fights bacteria. A normal result suggests there is no sign of a serious infection.",
+    fullExplanation:
+      "សមាមាត្រណឺត្រូហ្វីលរបស់អ្នកគឺ <strong>58%</strong> ដែលស្ថិតក្នុងដែនកំណត់ធម្មតា (40 - 70%)។ ណឺត្រូហ្វីលគឺជាប្រភេទកោសិកាឈាមសដែលប្រយុទ្ធប្រឆាំងនឹងបាក់តេរី។ សមាមាត្រធម្មតាបង្ហាញថាគ្មានសញ្ញានៃការបង្ករោគធ្ងន់ធ្ងរ។",
     barConfig: {
-      gradientType: 'range',
-      markerPosition: '48%',
-      markerColor: 'border-success-500 dark:border-success-400',
-      labels: ['ទាប (<40%)', 'ធម្មតា (40-70%)', 'ខ្ពស់ (>70%)'],
+      gradientType: "range",
+      markerPosition: "48%",
+      markerColor: "border-success-500 dark:border-success-400",
+      labelsEn: ["Low (<40%)", "Normal (40-70%)", "High (>70%)"],
+      labels: ["ទាប (<40%)", "ធម្មតា (40-70%)", "ខ្ពស់ (>70%)"],
     },
   },
-}
+};
 
 const statusConfig = {
-  normal: { iconBg: 'bg-success-50 dark:bg-success-900/20', iconColor: 'text-success-500 dark:text-success-400', valueColor: 'text-success-600 dark:text-success-400', badgeBg: 'bg-success-50 dark:bg-success-900/20', badgeText: 'text-success-600 dark:text-success-400', markerBorder: 'border-success-500 dark:border-success-400', label: 'ធម្មតា' },
-  low: { iconBg: 'bg-warning-50 dark:bg-warning-900/20', iconColor: 'text-warning-500 dark:text-warning-400', valueColor: 'text-warning-600 dark:text-warning-400', badgeBg: 'bg-warning-50 dark:bg-warning-900/20', badgeText: 'text-warning-600 dark:text-warning-400', markerBorder: 'border-warning-500 dark:border-warning-400', label: 'ទាប' },
-  high: { iconBg: 'bg-error-50 dark:bg-error-900/20', iconColor: 'text-error-500 dark:text-error-400', valueColor: 'text-error-600 dark:text-error-400', badgeBg: 'bg-error-50 dark:bg-error-900/20', badgeText: 'text-error-600 dark:text-error-400', markerBorder: 'border-error-500 dark:border-error-400', label: 'ខ្ពស់' },
-}
+  normal: {
+    iconBg: "bg-success-50 dark:bg-success-900/20",
+    iconColor: "text-success-500 dark:text-success-400",
+    valueColor: "text-success-600 dark:text-success-400",
+    badgeBg: "bg-success-50 dark:bg-success-900/20",
+    badgeText: "text-success-600 dark:text-success-400",
+    markerBorder: "border-success-500 dark:border-success-400",
+    label: "ធម្មតា",
+    labelEn: "Normal",
+  },
+  low: {
+    iconBg: "bg-warning-50 dark:bg-warning-900/20",
+    iconColor: "text-warning-500 dark:text-warning-400",
+    valueColor: "text-warning-600 dark:text-warning-400",
+    badgeBg: "bg-warning-50 dark:bg-warning-900/20",
+    badgeText: "text-warning-600 dark:text-warning-400",
+    markerBorder: "border-warning-500 dark:border-warning-400",
+    label: "ទាប",
+    labelEn: "Low",
+  },
+  high: {
+    iconBg: "bg-error-50 dark:bg-error-900/20",
+    iconColor: "text-error-500 dark:text-error-400",
+    valueColor: "text-error-600 dark:text-error-400",
+    badgeBg: "bg-error-50 dark:bg-error-900/20",
+    badgeText: "text-error-600 dark:text-error-400",
+    markerBorder: "border-error-500 dark:border-error-400",
+    label: "ខ្ពស់",
+    labelEn: "High",
+  },
+};
 
-export default function DetailScreen({ onGoBack, finding }) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [showCaregiverModal, setShowCaregiverModal] = useState(false)
-  const [helpOpen, setHelpOpen] = useState(false)
+export default function DetailScreen({ onGoBack, finding, language = "kh" }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showCaregiverModal, setShowCaregiverModal] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const t = (kh, en) => (language === "en" ? en : kh);
 
   if (!finding) {
     return (
       <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 items-center justify-center">
         <div className="w-12 h-12 border-4 border-primary-200 dark:border-primary-800 border-t-primary-600 dark:border-t-primary-400 rounded-full animate-spin" />
       </div>
-    )
+    );
   }
 
-  const detail = findingDetails[finding.name]
-  const status = statusConfig[finding.status]
+  const detail = findingDetails[finding.name];
+  const status = statusConfig[finding.status];
+  const detailGlossary =
+    language === "en" ? detail.glossaryEn || detail.glossary : detail.glossary;
+  const detailRecommendations =
+    language === "en"
+      ? detail.recommendationsEn || detail.recommendations
+      : detail.recommendations;
+  const detailExplanation =
+    language === "en"
+      ? detail.fullExplanationEn || detail.fullExplanation
+      : detail.fullExplanation;
+  const detailLabels =
+    language === "en"
+      ? detail.barConfig.labelsEn || detail.barConfig.labels
+      : detail.barConfig.labels;
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50 dark:bg-slate-900 transition-colors">
@@ -129,20 +274,44 @@ export default function DetailScreen({ onGoBack, finding }) {
           onClick={onGoBack}
           className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
         >
-          <svg className="w-5 h-5 text-neutral-700 dark:text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          <svg
+            className="w-5 h-5 text-neutral-700 dark:text-neutral-300"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5 8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
         <div className="flex-1">
-          <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">លម្អិត</h1>
-          <p className="text-xs text-neutral-400 dark:text-neutral-500">Detail</p>
+          <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">
+            {t("លម្អិត", "Detail")}
+          </h1>
+          <p className="text-xs text-neutral-400 dark:text-neutral-500">
+            {t("Detail", "Detail")}
+          </p>
         </div>
         <button
           onClick={() => setHelpOpen(true)}
           className="w-11 h-11 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-neutral-100 dark:border-slate-700"
         >
-          <svg className="w-5 h-5 text-neutral-500 dark:text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+          <svg
+            className="w-5 h-5 text-neutral-500 dark:text-neutral-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+            />
           </svg>
         </button>
       </div>
@@ -150,42 +319,85 @@ export default function DetailScreen({ onGoBack, finding }) {
       <div className="flex-1 px-6 pt-2 pb-6 space-y-4">
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-10 h-10 ${status.iconBg} rounded-xl flex items-center justify-center`}>
-              {finding.status === 'normal' ? (
-                <svg className={`w-5 h-5 ${status.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            <div
+              className={`w-10 h-10 ${status.iconBg} rounded-xl flex items-center justify-center`}
+            >
+              {finding.status === "normal" ? (
+                <svg
+                  className={`w-5 h-5 ${status.iconColor}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m4.5 12.75 6 6 9-13.5"
+                  />
                 </svg>
               ) : (
-                <svg className={`w-5 h-5 ${status.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                <svg
+                  className={`w-5 h-5 ${status.iconColor}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+                  />
                 </svg>
               )}
             </div>
             <div>
-              <p className="text-base font-semibold text-neutral-900 dark:text-white">{finding.nameKh}</p>
-              <p className="text-xs text-neutral-400 dark:text-neutral-500">{finding.name} · {finding.section}</p>
+              <p className="text-base font-semibold text-neutral-900 dark:text-white">
+                {language === "en" ? finding.name : finding.nameKh}
+              </p>
+              <p className="text-xs text-neutral-400 dark:text-neutral-500">
+                {finding.name} · {finding.section}
+              </p>
             </div>
           </div>
 
           <div className="flex items-end gap-2 mb-2">
-            <span className={`text-4xl font-bold ${status.valueColor}`}>{finding.value.split(' ')[0]}</span>
-            <span className="text-sm text-neutral-400 dark:text-neutral-500 mb-1">{finding.value.split(' ').slice(1).join(' ')}</span>
+            <span className={`text-4xl font-bold ${status.valueColor}`}>
+              {finding.value.split(" ")[0]}
+            </span>
+            <span className="text-sm text-neutral-400 dark:text-neutral-500 mb-1">
+              {finding.value.split(" ").slice(1).join(" ")}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className={`text-xs font-medium px-2.5 py-1 rounded-lg ${status.badgeBg} ${status.badgeText}`}>{status.label}</span>
-            <span className="text-xs text-neutral-400 dark:text-neutral-500">ធម្មតា: {finding.normalRange}</span>
+            <span
+              className={`text-xs font-medium px-2.5 py-1 rounded-lg ${status.badgeBg} ${status.badgeText}`}
+            >
+              {language === "en"
+                ? status.labelEn || status.label
+                : status.label}
+            </span>
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">
+              {language === "en" ? "Normal range" : "ធម្មតា"}:{" "}
+              {finding.normalRange}
+            </span>
           </div>
         </div>
 
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 p-6">
-          <p className="text-sm font-semibold text-neutral-800 dark:text-white mb-4">កម្រិតប្រៀបធៀប</p>
+          <p className="text-sm font-semibold text-neutral-800 dark:text-white mb-4">
+            កម្រិតប្រៀបធៀប
+          </p>
 
-          <div className={`relative h-4 rounded-full overflow-hidden mb-6 ${
-            detail.barConfig.gradientType === 'threshold'
-              ? 'bg-gradient-to-r from-success-400 via-warning-400 to-error-400 dark:from-success-600 dark:via-warning-600 dark:to-error-600'
-              : 'bg-gradient-to-r from-warning-400 via-success-400 to-error-400 dark:from-warning-600 dark:via-success-600 dark:to-error-600'
-          }`}>
+          <div
+            className={`relative h-4 rounded-full overflow-hidden mb-6 ${
+              detail.barConfig.gradientType === "threshold"
+                ? "bg-gradient-to-r from-success-400 via-warning-400 to-error-400 dark:from-success-600 dark:via-warning-600 dark:to-error-600"
+                : "bg-gradient-to-r from-warning-400 via-success-400 to-error-400 dark:from-warning-600 dark:via-success-600 dark:to-error-600"
+            }`}
+          >
             <div
               className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-slate-900 border-3 ${detail.barConfig.markerColor} rounded-full shadow-md`}
               style={{ left: detail.barConfig.markerPosition }}
@@ -193,7 +405,7 @@ export default function DetailScreen({ onGoBack, finding }) {
           </div>
 
           <div className="flex justify-between text-xs text-neutral-400 dark:text-neutral-500">
-            {detail.barConfig.labels.map((label, i) => (
+            {detailLabels.map((label, i) => (
               <span key={i}>{label}</span>
             ))}
           </div>
@@ -201,10 +413,22 @@ export default function DetailScreen({ onGoBack, finding }) {
 
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 p-6">
           <div className="flex items-center gap-2 mb-3">
-            <svg className="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+            <svg
+              className="w-5 h-5 text-primary-600 dark:text-primary-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
+              />
             </svg>
-            <p className="text-sm font-semibold text-neutral-800 dark:text-white">កម្រិតទំនុកចិត្តរបស់ AI</p>
+            <p className="text-sm font-semibold text-neutral-800 dark:text-white">
+              កម្រិតទំនុកចិត្តរបស់ AI
+            </p>
           </div>
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16">
@@ -226,14 +450,22 @@ export default function DetailScreen({ onGoBack, finding }) {
                   strokeLinecap="round"
                 />
               </svg>
-              <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-neutral-900 dark:text-white">{finding.confidence}%</span>
+              <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-neutral-900 dark:text-white">
+                {finding.confidence}%
+              </span>
             </div>
             <div className="flex-1">
               <p className="text-sm text-neutral-700 dark:text-neutral-300">
-                AI វិភាគលទ្ធផលនេះដោយទំនុកចិត្ត <span className="font-semibold text-primary-600 dark:text-primary-400">{finding.confidence}%</span>
+                {language === "en"
+                  ? "AI analyzed this result with confidence"
+                  : "AI វិភាគលទ្ធផលនេះដោយទំនុកចិត្ត"}{" "}
+                <span className="font-semibold text-primary-600 dark:text-primary-400">
+                  {finding.confidence}%
+                </span>
               </p>
               <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-1">
-                ប្រភពទិន្នន័យ៖ {finding.dataSource}
+                {language === "en" ? "Data source" : "ប្រភពទិន្នន័យ"}៖{" "}
+                {finding.dataSource}
               </p>
             </div>
           </div>
@@ -241,54 +473,106 @@ export default function DetailScreen({ onGoBack, finding }) {
 
         <div className="bg-primary-50 dark:bg-primary-900/20 rounded-2xl border border-primary-100 dark:border-primary-800 p-6">
           <div className="flex items-center gap-2 mb-3">
-            <svg className="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+            <svg
+              className="w-5 h-5 text-primary-600 dark:text-primary-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
+              />
             </svg>
-            <p className="text-sm font-semibold text-primary-800 dark:text-primary-300">តើវាមានន័យយ៉ាងម៉េច?</p>
+            <p className="text-sm font-semibold text-primary-800 dark:text-primary-300">
+              {t("តើវាមានន័យយ៉ាងម៉េច?", "What does this mean?")}
+            </p>
           </div>
           <p
             className="text-sm text-primary-700 dark:text-primary-300 leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: detail.fullExplanation }}
+            dangerouslySetInnerHTML={{ __html: detailExplanation }}
           />
         </div>
 
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-neutral-100 dark:border-slate-700 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <svg className="w-5 h-5 text-neutral-600 dark:text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z" />
+            <svg
+              className="w-5 h-5 text-neutral-600 dark:text-neutral-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"
+              />
             </svg>
-            <p className="text-sm font-semibold text-neutral-800 dark:text-white">ពាក្យពេទ្យ</p>
+            <p className="text-sm font-semibold text-neutral-800 dark:text-white">
+              {t("ពាក្យពេទ្យ", "Medical terms")}
+            </p>
           </div>
 
           <div className="space-y-3">
-            {detail.glossary.map((item, i) => (
+            {detailGlossary.map((item, i) => (
               <div key={i}>
-                {i > 0 && <div className="border-t border-neutral-100 dark:border-slate-700 mb-3" />}
+                {i > 0 && (
+                  <div className="border-t border-neutral-100 dark:border-slate-700 mb-3" />
+                )}
                 <div className="flex gap-3">
-                  <span className="text-xs font-medium text-neutral-400 dark:text-neutral-500 w-20 shrink-0 pt-0.5">{item.term}</span>
-                  <p className="text-sm text-neutral-700 dark:text-neutral-300">{item.definition}</p>
+                  <span className="text-xs font-medium text-neutral-400 dark:text-neutral-500 w-20 shrink-0 pt-0.5">
+                    {item.term}
+                  </span>
+                  <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                    {item.definition}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className={`rounded-2xl border p-6 ${
-          finding.status === 'normal'
-            ? 'bg-success-50 dark:bg-success-900/20 border-success-100 dark:border-success-800'
-            : 'bg-warning-50 dark:bg-warning-900/20 border-warning-100 dark:border-warning-800'
-        }`}>
+        <div
+          className={`rounded-2xl border p-6 ${
+            finding.status === "normal"
+              ? "bg-success-50 dark:bg-success-900/20 border-success-100 dark:border-success-800"
+              : "bg-warning-50 dark:bg-warning-900/20 border-warning-100 dark:border-warning-800"
+          }`}
+        >
           <div className="flex items-center gap-2 mb-3">
-            <svg className={`w-5 h-5 ${finding.status === 'normal' ? 'text-success-600 dark:text-success-400' : 'text-warning-600 dark:text-warning-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+            <svg
+              className={`w-5 h-5 ${finding.status === "normal" ? "text-success-600 dark:text-success-400" : "text-warning-600 dark:text-warning-400"}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+              />
             </svg>
-            <p className={`text-sm font-semibold ${finding.status === 'normal' ? 'text-success-800 dark:text-success-300' : 'text-warning-800 dark:text-warning-300'}`}>អនុសាសន៍</p>
+            <p
+              className={`text-sm font-semibold ${finding.status === "normal" ? "text-success-800 dark:text-success-300" : "text-warning-800 dark:text-warning-300"}`}
+            >
+              {t("អនុសាសន៍", "Recommendations")}
+            </p>
           </div>
           <ul className="space-y-2">
-            {detail.recommendations.map((rec, i) => (
+            {detailRecommendations.map((rec, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${finding.status === 'normal' ? 'bg-success-400 dark:bg-success-500' : 'bg-warning-400 dark:bg-warning-500'}`} />
-                <p className={`text-sm ${finding.status === 'normal' ? 'text-success-700 dark:text-success-300' : 'text-warning-700 dark:text-warning-300'}`}>{rec}</p>
+                <span
+                  className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${finding.status === "normal" ? "bg-success-400 dark:bg-success-500" : "bg-warning-400 dark:bg-warning-500"}`}
+                />
+                <p
+                  className={`text-sm ${finding.status === "normal" ? "text-success-700 dark:text-success-300" : "text-warning-700 dark:text-warning-300"}`}
+                >
+                  {rec}
+                </p>
               </li>
             ))}
           </ul>
@@ -300,72 +584,160 @@ export default function DetailScreen({ onGoBack, finding }) {
           onClick={() => setIsPlaying(!isPlaying)}
           className={`w-full py-4 rounded-2xl text-base font-semibold flex items-center justify-center gap-3 transition-all ${
             isPlaying
-              ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/20'
-              : 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+              ? "bg-primary-600 text-white shadow-lg shadow-primary-600/20"
+              : "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
           }`}
         >
           {isPlaying ? (
             <>
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
-              កំពុងអាន... ប៉ះដើម្បីឈប់
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+              </svg>
+              {t("កំពុងអាន... ប៉ះដើម្បីឈប់", "Reading... tap to stop")}
             </>
           ) : (
             <>
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-              ស្ដាប់ការពន្យល់ (TTS)
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              {t("ស្ដាប់ការពន្យល់ (TTS)", "Listen to explanation (TTS)")}
             </>
           )}
         </button>
 
         <div className="grid grid-cols-2 gap-3">
           <button className="flex flex-col items-center gap-2 py-4 bg-white dark:bg-slate-800 rounded-2xl border border-neutral-200 dark:border-slate-700 active:scale-95 transition-transform">
-            <svg className="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+            <svg
+              className="w-6 h-6 text-primary-600 dark:text-primary-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
+              />
             </svg>
-            <span className="text-sm font-medium text-neutral-800 dark:text-white">ចែករំលែក</span>
-            <span className="text-xs text-neutral-400 dark:text-neutral-500">Share</span>
+            <span className="text-sm font-medium text-neutral-800 dark:text-white">
+              {t("ចែករំលែក", "Share")}
+            </span>
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">
+              {language === "en" ? "Share" : "Share"}
+            </span>
           </button>
 
           <button
             onClick={() => setShowCaregiverModal(true)}
             className="flex flex-col items-center gap-2 py-4 bg-white dark:bg-slate-800 rounded-2xl border border-neutral-200 dark:border-slate-700 active:scale-95 transition-transform"
           >
-            <svg className="w-6 h-6 text-warning-600 dark:text-warning-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+            <svg
+              className="w-6 h-6 text-warning-600 dark:text-warning-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+              />
             </svg>
-            <span className="text-sm font-medium text-neutral-800 dark:text-white">ផ្ញើអ្នកថែទាំ</span>
-            <span className="text-xs text-neutral-400 dark:text-neutral-500">Send to Caregiver</span>
+            <span className="text-sm font-medium text-neutral-800 dark:text-white">
+              {t("ផ្ញើអ្នកថែទាំ", "Send to caregiver")}
+            </span>
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">
+              {language === "en" ? "Send to caregiver" : "Send to Caregiver"}
+            </span>
           </button>
         </div>
 
         <button className="w-full py-4 bg-white dark:bg-slate-800 rounded-2xl border border-neutral-200 dark:border-slate-700 flex items-center justify-center gap-3 active:scale-95 transition-transform">
-          <svg className="w-5 h-5 text-neutral-600 dark:text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+          <svg
+            className="w-5 h-5 text-neutral-600 dark:text-neutral-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+            />
           </svg>
-          <span className="text-sm font-medium text-neutral-800 dark:text-white">កត់ត្រាចំណាំ</span>
-          <span className="text-xs text-neutral-400 dark:text-neutral-500">Save Notes</span>
+          <span className="text-sm font-medium text-neutral-800 dark:text-white">
+            {t("កត់ត្រាចំណាំ", "Save notes")}
+          </span>
+          <span className="text-xs text-neutral-400 dark:text-neutral-500">
+            {language === "en" ? "Save notes" : "Save Notes"}
+          </span>
         </button>
       </div>
 
       <HelpBottomSheet
         isOpen={helpOpen}
         onClose={() => setHelpOpen(false)}
-        title={`ជំនួយអំពី ${finding.nameKh}`}
+        title={
+          language === "en"
+            ? `Help for ${finding.name}`
+            : `ជំនួយអំពី ${finding.nameKh}`
+        }
       >
         <div className="space-y-3">
           <p>
-            ទំព័រនេះពន្យល់ពីរបៀបយល់ពីតម្លៃ <strong>{finding.nameKh}</strong> របស់អ្នក។
+            {language === "en" ? (
+              <>
+                This page explains how to understand your{" "}
+                <strong>{finding.name}</strong> result.
+              </>
+            ) : (
+              <>
+                ទំព័រនេះពន្យល់ពីរបៀបយល់ពីតម្លៃ <strong>{finding.nameKh}</strong>{" "}
+                របស់អ្នក។
+              </>
+            )}
           </p>
           <p>
-            <strong>របារប្រៀបធៀប</strong> បង្ហាញទីតាំងតម្លៃរបស់អ្នកធៀបនឹងដែនកំណត់ធម្មតា។ ប្រសិនបើចំណុចស្ថិតនៅចុងឆ្វេង មានន័យថាទាប។ ប្រសិនបើស្ថិតនៅកណ្ដាល មានន័យថាធម្មតា។ ប្រសិនបើស្ថិតនៅចុងស្ដាំ មានន័យថាខ្ពស់។
+            {language === "en" ? (
+              <>
+                <strong>Comparison bar</strong> shows where your result sits
+                compared with the normal range. If the marker is on the left, it
+                is low. In the middle, it is normal. On the right, it is high.
+              </>
+            ) : (
+              <>
+                <strong>របារប្រៀបធៀប</strong>{" "}
+                បង្ហាញទីតាំងតម្លៃរបស់អ្នកធៀបនឹងដែនកំណត់ធម្មតា។
+                ប្រសិនបើចំណុចស្ថិតនៅចុងឆ្វេង មានន័យថាទាប។ ប្រសិនបើស្ថិតនៅកណ្ដាល
+                មានន័យថាធម្មតា។ ប្រសិនបើស្ថិតនៅចុងស្ដាំ មានន័យថាខ្ពស់។
+              </>
+            )}
           </p>
           <p>
-            <strong>ពាក្យពេទ្យ</strong> និង <strong>អនុសាសន៍</strong> ជួយអ្នកយល់ពីអត្ថន័យនៃលទ្ធផល និងជំហានបន្ទាប់ដែលគួរធ្វើ។ សូមចងចាំថាព័ត៌មាននេះសម្រាប់ការយល់ដឹងទូទៅប៉ុណ្ណោះ។
+            {language === "en" ? (
+              <>
+                <strong>Medical terms</strong> and{" "}
+                <strong>Recommendations</strong> help explain the result and
+                next steps. This information is for general understanding only.
+              </>
+            ) : (
+              <>
+                <strong>ពាក្យពេទ្យ</strong> និង <strong>អនុសាសន៍</strong>{" "}
+                ជួយអ្នកយល់ពីអត្ថន័យនៃលទ្ធផល និងជំហានបន្ទាប់ដែលគួរធ្វើ។
+                សូមចងចាំថាព័ត៌មាននេះសម្រាប់ការយល់ដឹងទូទៅប៉ុណ្ណោះ។
+              </>
+            )}
           </p>
         </div>
       </HelpBottomSheet>
 
-      <SendToCaregiverModal isOpen={showCaregiverModal} onClose={() => setShowCaregiverModal(false)} />
+      <SendToCaregiverModal
+        isOpen={showCaregiverModal}
+        onClose={() => setShowCaregiverModal(false)}
+      />
     </div>
-  )
+  );
 }
