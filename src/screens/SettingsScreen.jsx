@@ -350,6 +350,13 @@ export default function SettingsScreen({
             </div>
           </div>
         </div>
+
+        <button
+          onClick={() => onNavigate("signIn", { replace: true })}
+          className="w-full mt-2 py-3.5 rounded-2xl border border-error-200 dark:border-error-900/40 bg-red-400 dark:bg-error-900/20 text-white dark:text-white font-semibold transition-colors active:scale-[0.99]"
+        >
+          ចាកចេញ
+        </button>
       </div>
 
       <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white dark:bg-slate-800 border-t border-neutral-100 dark:border-slate-700 px-6 pb-6 pt-3 transition-colors">
